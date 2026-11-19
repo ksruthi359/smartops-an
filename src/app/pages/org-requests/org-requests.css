@@ -1,0 +1,576 @@
+/* ==================================================
+   PAGE
+================================================== */
+
+.requests-page {
+  min-height: calc(100vh - 70px);
+  background: #f7f8fa;
+  padding: 36px 32px;
+}
+
+
+/* ==================================================
+   HEADER
+================================================== */
+
+.page-header {
+  margin-bottom: 30px;
+}
+
+.title-section {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.page-icon {
+  font-size: 32px;
+}
+
+.page-header h1 {
+  margin: 0;
+  color: #172033;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.page-header p {
+  margin: 5px 0 0;
+  color: #64748b;
+  font-size: 17px;
+}
+
+
+/* ==================================================
+   FILTER TABS
+================================================== */
+
+.filter-tabs {
+  display: inline-flex;
+  background: #e9edf2;
+  border-radius: 8px;
+  padding: 5px;
+  margin-bottom: 14px;
+}
+
+.filter-tabs button {
+  border: none;
+  background: transparent;
+  color: #64748b;
+  padding: 10px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.filter-tabs button.active {
+  background: white;
+  color: #172033;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ==================================================
+   REQUEST CARD
+================================================== */
+
+.request-card {
+  background: white;
+  border: 1px solid #dfe4e8;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+
+/* ==================================================
+   REQUEST HEADER
+================================================== */
+
+.request-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.organization {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.organization-logo {
+  width: 54px;
+  height: 54px;
+  border-radius: 10px;
+  background: #e5f6f4;
+  color: #1ca79b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.organization h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #172033;
+}
+
+.organization span {
+  display: block;
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 15px;
+}
+
+
+/* ==================================================
+   STATUS
+================================================== */
+
+.status {
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status.pending {
+  background: #d8f3ef;
+  color: #159e92;
+}
+
+.status.approved {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status.rejected {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+
+/* ==================================================
+   DETAILS
+================================================== */
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 80px;
+  row-gap: 16px;
+  margin-top: 22px;
+}
+
+.details-grid > div {
+  color: #64748b;
+  font-size: 16px;
+}
+
+.icon {
+  display: inline-block;
+  width: 25px;
+  color: #64748b;
+}
+
+
+/* ==================================================
+   CONTENT
+================================================== */
+
+.request-content {
+  margin-top: 18px;
+}
+
+.request-content p {
+  margin: 9px 0;
+  color: #64748b;
+  font-size: 15px;
+}
+
+.request-content strong {
+  color: #475569;
+}
+
+
+/* ==================================================
+   FOOTER
+================================================== */
+
+.request-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #edf0f2;
+  margin-top: 20px;
+  padding-top: 18px;
+}
+
+.request-footer > span {
+  color: #64748b;
+  font-size: 14px;
+}
+
+
+/* ==================================================
+   APPROVE / REJECT BUTTONS
+================================================== */
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actions button {
+  border: none;
+  border-radius: 7px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.approve {
+  background: #20aa9d;
+  color: white;
+}
+
+.reject {
+  background: #ef2929;
+  color: white;
+}
+
+.approve:hover,
+.reject:hover {
+  opacity: 0.9;
+}
+
+
+/* ==================================================
+   EMPTY / LOADING / ERROR
+================================================== */
+
+.empty,
+.state-message {
+  background: white;
+  border: 1px solid #dfe4e8;
+  border-radius: 10px;
+  padding: 45px;
+  text-align: center;
+  color: #64748b;
+  margin-top: 10px;
+}
+
+.state-message.error {
+  color: #dc2626;
+}
+
+.state-message button {
+  margin-left: 10px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #20aa9d;
+  color: white;
+  cursor: pointer;
+}
+
+
+/* ==================================================
+   MODAL OVERLAY
+================================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 9999;
+}
+
+
+/* ==================================================
+   MODAL
+================================================== */
+
+.modal {
+  width: 650px;
+  max-width: calc(100vw - 40px);
+
+  background: #ffffff;
+  border-radius: 12px;
+
+  padding: 28px 34px;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+
+/* ==================================================
+   MODAL HEADER
+================================================== */
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: #172033;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.close-button {
+  border: none;
+  background: transparent;
+
+  color: #64748b;
+
+  font-size: 30px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  padding: 0;
+}
+
+.close-button:hover {
+  color: #172033;
+}
+
+
+/* ==================================================
+   MODAL DESCRIPTION
+================================================== */
+
+.modal-description {
+  margin: 10px 0 28px;
+
+  color: #64748b;
+
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.modal-description strong {
+  color: #475569;
+}
+
+
+/* ==================================================
+   MODAL LABEL
+================================================== */
+
+.modal label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #172033;
+
+  font-size: 16px;
+  font-weight: 600;
+}
+
+
+/* ==================================================
+   TEXTAREA
+================================================== */
+
+.modal textarea {
+  width: 100%;
+  min-height: 120px;
+
+  box-sizing: border-box;
+
+  resize: vertical;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+
+  padding: 15px;
+
+  font-family: inherit;
+  font-size: 16px;
+
+  color: #172033;
+
+  outline: none;
+}
+
+.modal textarea:focus {
+  border-color: #20aa9d;
+  box-shadow: 0 0 0 2px rgba(32, 170, 157, 0.12);
+}
+
+.modal textarea::placeholder {
+  color: #94a3b8;
+}
+
+
+/* ==================================================
+   MODAL ACTIONS
+================================================== */
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  margin-top: 20px;
+}
+
+.modal-actions button {
+  border-radius: 8px;
+
+  padding: 12px 22px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+/* Cancel */
+
+.cancel-button {
+  background: white;
+  border: 1px solid #d1d5db;
+  color: #172033;
+}
+
+.cancel-button:hover {
+  background: #f8fafc;
+}
+
+
+/* Confirm Approval */
+
+.confirm-approve {
+  border: none;
+
+  background: #20aa9d;
+  color: white;
+}
+
+.confirm-approve:hover {
+  background: #18988d;
+}
+
+
+/* Confirm Rejection */
+
+.confirm-reject {
+  border: none;
+
+  background: #ef2929;
+  color: white;
+}
+
+.confirm-reject:hover {
+  background: #dc2626;
+}
+
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media (max-width: 900px) {
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .request-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .requests-page {
+    padding: 20px;
+  }
+
+  .filter-tabs {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .request-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .modal {
+    padding: 22px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions button {
+    width: 100%;
+  }
+
+}
+/* Main page */
+.requests-page {
+  padding: 20px !important;
+}
+
+/* Page heading */
+.page-header {
+  margin-bottom: 20px !important;
+}
+
+.page-header h1 {
+  font-size: 24px !important;
+  font-weight: 700;
+}
+
+.page-header p {
+  font-size: 13px !important;
+}
+
+/* Tabs */
+.tabs {
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  font-size: 13px !important;
+  padding: 9px 16px !important;
+  min-height: 36px;
+}
+
+/* Requests content box */
+.requests-card {
+  padding: 20px !important;
+  min-height: 100px !important;
+}
+
+/* Empty message */
+.empty-state {
+  font-size: 13px !important;
+  padding: 15px !important;
+}

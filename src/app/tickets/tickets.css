@@ -1,0 +1,237 @@
+.tickets-page {
+  padding: 32px;
+  background: #f8fafc;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.page-header p {
+  margin: 8px 0 0;
+  font-size: 17px;
+  color: #64748b;
+}
+
+
+/* =========================
+   REFRESH BUTTON
+========================= */
+
+button {
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  background: #0f766e;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  background: #115e59;
+}
+
+
+/* =========================
+   TABLE CONTAINER
+========================= */
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 15px;
+}
+
+
+/* =========================
+   TABLE HEADER
+========================= */
+
+thead {
+  background: #ffffff;
+}
+
+th {
+  padding: 18px 22px;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 600;
+  color: #64748b;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+
+/* =========================
+   TABLE BODY
+========================= */
+
+td {
+  padding: 18px 22px;
+  text-align: left;
+  font-size: 15px;
+  color: #1e293b;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: middle;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr {
+  transition: background 0.2s ease;
+}
+
+tbody tr:hover {
+  background: #f8fafc;
+}
+
+
+/* =========================
+   TICKET ID
+========================= */
+
+td:first-child {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0891b2;
+}
+
+
+/* =========================
+   TICKET NAME
+========================= */
+
+td:nth-child(2) {
+  font-size: 15px;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+
+/* =========================
+   DESCRIPTION
+========================= */
+
+td:nth-child(3) {
+  font-size: 14px;
+  color: #64748b;
+  max-width: 300px;
+}
+
+
+/* =========================
+   CATEGORY
+========================= */
+
+td:nth-child(4) {
+  font-size: 14px;
+  color: #475569;
+}
+
+
+/* =========================
+   PRIORITY
+========================= */
+
+td:nth-child(5) {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+td:nth-child(6) {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+.tickets-page > div[ng-reflect-ng-if] {
+  font-size: 15px;
+  color: #64748b;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+
+  .tickets-page {
+    padding: 20px;
+  }
+
+  .page-header h1 {
+    font-size: 28px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  th,
+  td {
+    padding: 14px 12px;
+  }
+}
+
+@media (max-width: 700px) {
+
+  .tickets-page {
+    padding: 16px;
+    overflow-x: auto;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .page-header h1 {
+    font-size: 24px;
+  }
+
+  .page-header p {
+    font-size: 15px;
+  }
+
+  table {
+    min-width: 800px;
+  }
+}

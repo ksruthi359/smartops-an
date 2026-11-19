@@ -1,0 +1,33 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+/* Main content beside the sidebar */
+.main-content {
+  margin-left: 240px;
+  width: calc(100% - 240px);
+  min-height: 100vh;
+  background: #f8fafc;
+  box-sizing: border-box;
+}
+
+/* Navbar stays at the top */
+app-navbar {
+  display: block;
+  width: 100%;
+  height: 74px;
+}
+
+/* Page content */
+.page-content {
+  padding: 35px;
+  box-sizing: border-box;
+}
+
+.page-content h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #111827;
+}
+

@@ -1,0 +1,79 @@
+<div class="tickets-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Tickets</h1>
+      <p>Manage and monitor support tickets</p>
+    </div>
+
+    <button (click)="loadTickets()">
+      Refresh
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading">
+    Loading tickets...
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error">
+    {{ error }}
+  </div>
+
+  <!-- Tickets table -->
+  <table *ngIf="!loading && !error">
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Ticket</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Priority</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let ticket of tickets">
+
+        <td>
+          {{ ticket.ticket_id }}
+        </td>
+
+        <td>
+          {{ ticket.ticket_name }}
+        </td>
+
+        <td>
+          {{ ticket.description }}
+        </td>
+
+        <td>
+          {{ ticket.category }}
+        </td>
+
+        <td>
+          {{ ticket.priority }}
+        </td>
+
+        <td>
+          {{ ticket.status }}
+        </td>
+
+      </tr>
+
+      <!-- No tickets -->
+      <tr *ngIf="tickets.length === 0">
+        <td colspan="6">
+          No tickets found.
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>

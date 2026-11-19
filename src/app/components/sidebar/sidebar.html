@@ -1,0 +1,136 @@
+
+<div class="sidebar">
+
+  <!-- Logo and Branding -->
+  <div class="sidebar-brand">
+
+    <div class="sidebar-logo">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="white"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46L12.08 9H19a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46L10.92 14z"/>
+      </svg>
+    </div>
+
+    <div class="brand-text">
+      <h2>SmartOps Hub</h2>
+      <p>Super_admin Portal</p>
+    </div>
+
+  </div>
+
+  <!-- Navigation Heading -->
+  <div class="navigation-title">
+    Navigation
+  </div>
+
+  <!-- Super Admin Heading -->
+  <div class="section-title">
+    Super Admin
+  </div>
+
+  <!-- Super Admin Navigation -->
+  <nav class="sidebar-nav">
+
+    <a
+      class="menu-item"
+      routerLink="/super-admin"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }">
+
+      <span class="icon">▦</span>
+      <span>SA Dashboard</span>
+    </a>
+
+    <a
+      class="menu-item"
+      routerLink="/super-admin/requests"
+      routerLinkActive="active">
+
+      <span class="icon">▥</span>
+      <span>Org Requests</span>
+    </a>
+
+    <a
+      class="menu-item"
+      routerLink="/super-admin/organizations"
+      routerLinkActive="active">
+
+      <span class="icon">◎</span>
+      <span>All Organizations</span>
+    </a>
+
+    <a
+      class="menu-item"
+      routerLink="/super-admin/tickets"
+      routerLinkActive="active">
+
+      <span class="icon">▤</span>
+      <span>All Tickets</span>
+    </a>
+
+    <a
+      class="menu-item"
+      routerLink="/super-admin/settings"
+      routerLinkActive="active">
+
+      <span class="icon">⚙</span>
+      <span>System Settings</span>
+    </a>
+
+  </nav>
+
+  <!-- Other Section -->
+  <div class="other-section">
+
+    <div class="section-title">
+      Other
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <!-- Notifications -->
+      <a
+        class="menu-item"
+        routerLink="/super-admin/notifications"
+        routerLinkActive="active">
+
+        <span class="icon bell-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+            <path d="M10 21h4"/>
+          </svg>
+        </span>
+
+        <span>Notifications</span>
+      </a>
+
+      <!-- Settings -->
+      <a
+        class="menu-item"
+        routerLink="/settings"
+        routerLinkActive="active">
+
+        <span class="icon">⚙</span>
+        <span>Settings</span>
+      </a>
+
+    </nav>
+
+  </div>
+
+</div>

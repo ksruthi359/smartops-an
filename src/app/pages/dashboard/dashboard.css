@@ -1,0 +1,774 @@
+
+:host {
+  display: block;
+  min-width: 0;
+  font-family: 'Inter', Arial, sans-serif;
+  color: #172033;
+}
+
+/* MAIN DASHBOARD */
+
+.dashboard {
+  width: 100%;
+  min-height: 100%;
+  padding: 30px;
+  box-sizing: border-box;
+  background: #f6f8fb;
+}
+
+/* DASHBOARD HEADER */
+
+.welcome-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.welcome-text {
+  min-width: 0;
+}
+
+.welcome-text h1 {
+  margin: 0 0 4px;
+  color: #111827;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.welcome-text p {
+  margin: 0;
+  color: #64748b;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* REFRESH BUTTON */
+
+.refresh-button {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid #dce3eb;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #334155;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.refresh-button:hover {
+  background: #f1f5f9;
+}
+
+.refresh-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.refresh-icon {
+  font-size: 19px;
+  line-height: 1;
+}
+
+/* API ERROR */
+
+.error-message {
+  margin-bottom: 18px;
+  padding: 12px 15px;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* SIX KPI CARDS */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+  margin: 0 0 30px;
+  box-sizing: border-box;
+}
+
+/* INDIVIDUAL KPI CARD */
+
+.stat-card {
+  display: flex;
+  min-width: 0;
+  min-height: 146px;
+  padding: 18px 10px;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 11px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(15, 23, 42, 0.035);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(15, 23, 42, 0.07);
+}
+
+/* KPI ICON CONTAINER */
+
+.stat-icon {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 9px;
+  border-radius: 9px;
+}
+
+.stat-icon svg {
+  display: block;
+  width: 26px;
+  height: 26px;
+}
+
+/* ICON COLORS */
+
+.organizations-icon {
+  color: #14a99b;
+  background: #e5f8f5;
+}
+
+.users-icon {
+  color: #087cff;
+  background: #eaf3ff;
+}
+
+.tickets-icon {
+  color: #0f766e;
+  background: #e5f5f3;
+}
+
+.open-icon {
+  color: #f59e0b;
+  background: #fff5df;
+}
+
+.urgent-icon {
+  color: #ef4444;
+  background: #fff0f0;
+}
+
+.requests-icon {
+  color: #14a99b;
+  background: #e5f8f5;
+}
+
+/* KPI NUMBERS */
+
+.stat-card h2 {
+  margin: 0 0 3px;
+  color: #111827;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+/* KPI LABELS */
+
+.stat-label {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+/* PENDING ORGANIZATION REQUESTS */
+
+.pending-requests {
+  width: 100%;
+  padding: 30px;
+  box-sizing: border-box;
+  border: 1px solid #f0c77c;
+  border-radius: 11px;
+  background: #fffaf0;
+}
+
+/* PENDING HEADING */
+
+.pending-heading {
+  margin-bottom: 18px;
+}
+
+.pending-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pending-clock {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  color: #f59e0b;
+  font-size: 23px;
+  line-height: 1;
+}
+
+.pending-title-row h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.pending-heading p {
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* REQUEST EMPTY MESSAGE */
+
+.request-empty {
+  padding: 18px;
+  border: 1px dashed #e8d3a8;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.65);
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* VIEW REQUESTS LINK */
+
+.view-requests-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 45px;
+  margin-top: 16px;
+  padding: 10px 14px;
+  box-sizing: border-box;
+  background: #f8fafc;
+  border: 1px solid #dce3eb;
+  border-radius: 8px;
+  color: #172033;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.view-requests-button:hover {
+  background: #e9eef5;
+}
+
+/* ORGANIZATIONS SECTION */
+
+.organizations-card {
+  width: 100%;
+  max-width: 520px;
+  margin-top: 24px;
+  padding: 18px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(15, 23, 42, 0.035);
+}
+
+.organizations-card h2 {
+  margin: 0 0 14px;
+  color: #172033;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+/* ORGANIZATION ROW */
+
+.organization-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 62px;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+/* ORGANIZATION INITIAL */
+
+.org-icon {
+  display: flex;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  align-items: center;
+  justify-content: center;
+  background: #e5f8f5;
+  color: #14a99b;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* ORGANIZATION DETAILS */
+
+.org-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.org-name {
+  color: #172033;
+  font-size: 14px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.org-slug {
+  margin-top: 3px;
+  color: #64748b;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+/* STATUS BADGE */
+
+.org-badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.org-badge.inactive {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* MANAGE ALL */
+
+.manage-all-btn {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  box-sizing: border-box;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+  color: #334155;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.manage-all-btn:hover {
+  background: #e5f8f5;
+  color: #0f766e;
+}
+
+/* ORGANIZATION LOADING AND ERRORS */
+
+.org-message {
+  padding: 12px 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.org-error {
+  padding: 12px;
+  background: #fef2f2;
+  color: #b91c1c;
+  border-radius: 7px;
+  font-size: 13px;
+}
+
+/* TABLET */
+
+@media (max-width: 1200px) {
+  .stats-grid {
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 14px 7px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 1050px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .dashboard {
+    padding: 16px 12px;
+  }
+
+  .welcome-section {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .welcome-text h1 {
+    font-size: 23px;
+  }
+
+  .welcome-text p {
+    font-size: 13px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .stat-card {
+    min-height: 125px;
+    padding: 12px 7px;
+  }
+
+  .stat-card h2 {
+    font-size: 25px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+  }
+
+  .stat-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .stat-icon svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .pending-requests {
+    padding: 16px 12px;
+  }
+
+  .pending-title-row h2 {
+    font-size: 16px;
+  }
+
+  .pending-heading p {
+    font-size: 12px;
+  }
+
+  .view-requests-button {
+    font-size: 12px;
+  }
+
+  .organizations-card {
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  .organizations-card h2 {
+    font-size: 16px;
+  }
+
+  .organization-item {
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .org-icon {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+
+  .org-name {
+    font-size: 13px;
+  }
+
+  .org-slug {
+    font-size: 11px;
+  }
+
+  .org-badge {
+    padding: 5px 8px;
+    font-size: 10px;
+  }
+}
+
+/* SLIGHTLY COMPACT DASHBOARD */
+
+.dashboard {
+  padding: 24px;
+}
+
+/* Heading */
+.welcome-section {
+  margin-bottom: 22px;
+}
+
+.welcome-text h1 {
+  font-size: 27px;
+}
+
+.welcome-text p {
+  font-size: 14px;
+}
+
+/* Six KPI cards */
+.stats-grid {
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  min-height: 130px;
+  padding: 12px 8px;
+}
+
+/* KPI icons */
+.stat-icon {
+  width: 35px;
+  height: 35px;
+  margin-bottom: 8px;
+}
+
+.stat-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* KPI numbers */
+.stat-card h2 {
+  font-size: 27px;
+  margin-bottom: 4px;
+}
+
+/* KPI labels */
+.stat-label {
+  font-size: 12px;
+}
+
+/* Pending Requests */
+.pending-requests {
+  padding: 22px;
+}
+
+.pending-heading {
+  margin-bottom: 14px;
+}
+
+.pending-title-row h2 {
+  font-size: 17px;
+}
+
+.pending-heading p {
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.request-empty {
+  padding: 13px;
+  font-size: 12px;
+}
+
+/* View Requests button */
+.view-requests-button {
+  min-height: 38px;
+  margin-top: 12px;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+/* Organizations */
+.organizations-card {
+  max-width: 500px;
+  margin-top: 20px;
+  padding: 16px;
+}
+
+.organization-item {
+  min-height: 58px;
+  padding: 8px 10px;
+}
+
+@media (max-width: 1050px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard {
+    padding: 16px 12px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* COMPACT SUPER ADMIN DASHBOARD */
+
+.dashboard {
+  padding: 20px 24px;
+}
+
+/* Dashboard heading */
+.welcome-section {
+  margin-bottom: 20px;
+}
+
+.welcome-text h1 {
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.welcome-text p {
+  font-size: 13px;
+}
+
+/* Six KPI cards */
+.stats-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.stat-card {
+  min-height: 120px;
+  padding: 12px 8px;
+}
+
+/* KPI icons */
+.stat-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 7px;
+}
+
+.stat-icon svg {
+  width: 21px;
+  height: 21px;
+}
+
+/* KPI numbers */
+.stat-card h2 {
+  font-size: 26px;
+  margin-bottom: 3px;
+}
+
+/* KPI labels */
+.stat-label {
+  font-size: 12px;
+}
+
+/* Pending requests */
+.pending-requests {
+  padding: 20px;
+}
+
+.pending-title-row h2 {
+  font-size: 16px;
+}
+
+.pending-heading p {
+  font-size: 12px;
+}
+
+.request-empty {
+  padding: 12px;
+  font-size: 12px;
+}
+
+.view-requests-button {
+  min-height: 36px;
+  padding: 8px;
+  font-size: 12px;
+}
+
+/* Organizations */
+.organizations-card {
+  max-width: 500px;
+  margin-top: 18px;
+  padding: 16px;
+}
+
+.organizations-card h2 {
+  font-size: 16px;
+}
+
+.organization-item {
+  min-height: 56px;
+  padding: 8px 10px;
+}
+
+/* Tablet */
+@media (max-width: 1050px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .dashboard {
+    padding: 16px 12px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .welcome-text h1 {
+    font-size: 22px;
+  }
+}

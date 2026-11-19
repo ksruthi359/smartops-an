@@ -1,0 +1,1088 @@
+
+
+
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #111827;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   MAIN PAGE
+========================================= */
+
+.settings-page {
+  width: 100%;
+  max-width: 865px;
+  margin: 32px auto;
+  padding: 0 12px 30px;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.page-header {
+  margin-bottom: 28px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #111827;
+}
+
+.page-header p {
+  display: none;
+}
+
+/* =========================================
+   PROFILE / SECURITY / NOTIFICATIONS TABS
+========================================= */
+
+.settings-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 20px;
+  background: #e9ebef;
+  border-radius: 8px;
+  border: none;
+}
+
+.settings-tabs button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 13px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #64748b;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.settings-tabs button:hover {
+  color: #111827;
+}
+
+.settings-tabs button.active {
+  background: #ffffff;
+  color: #111827;
+  font-weight: 500;
+}
+
+.tab-icon {
+  font-size: 15px;
+}
+
+/* =========================================
+   SETTINGS CARD
+========================================= */
+
+.settings-card {
+  width: 100%;
+  padding: 30px;
+  background: #ffffff;
+  border: 1px solid #d9dee7;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+}
+
+/* =========================================
+   CARD HEADING
+========================================= */
+
+.card-heading {
+  margin-bottom: 32px;
+}
+
+.card-heading h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #111827;
+}
+
+.card-heading p {
+  display: none;
+}
+
+/* =========================================
+   PROFILE SUMMARY
+========================================= */
+
+.profile-summary {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #d9dee7;
+}
+
+/* Avatar */
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: #e7f5f3;
+  color: #24a79c;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+/* Profile details */
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.profile-details h3 {
+  margin: 0 0 6px;
+  color: #111827;
+  font-size: 21px;
+  font-weight: 600;
+}
+
+.profile-details p {
+  margin: 0 0 8px;
+  color: #64748b;
+  font-size: 16px;
+  overflow-wrap: anywhere;
+}
+
+/* Role badge */
+
+.role-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #ffffff;
+  border: 1px solid #d9dee7;
+  border-radius: 20px;
+  color: #111827;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =========================================
+   FORM LAYOUT
+========================================= */
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  margin-bottom: 20px;
+  min-width: 0;
+}
+
+.form-group.full-width {
+  width: 100%;
+}
+
+.form-group label {
+  color: #111827;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.form-group input {
+  width: 100%;
+  height: 51px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  background: #f5f6f8;
+  border: 1px solid #d9dee7;
+  border-radius: 8px;
+  color: #111827;
+  font-family: inherit;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input::placeholder {
+  color: #64748b;
+}
+
+.form-group input:focus {
+  border-color: #24a79c;
+  box-shadow: 0 0 0 2px rgba(36, 167, 156, 0.10);
+}
+
+/* =========================================
+   FORM BUTTONS
+========================================= */
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 0;
+}
+
+.primary-button {
+  min-height: 46px;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 7px;
+  background: #27a398;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.primary-button:hover {
+  background: #218c82;
+}
+
+.primary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   SUCCESS AND ERROR MESSAGES
+========================================= */
+
+.success-message {
+  margin: 4px 0 14px;
+  color: #047857;
+  font-size: 13px;
+}
+
+.error-message {
+  margin: 4px 0 14px;
+  color: #dc2626;
+  font-size: 13px;
+}
+
+/* =========================================
+   SECURITY TAB
+========================================= */
+
+.security-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.security-card {
+  width: 100%;
+  padding: 30px;
+  background: #ffffff;
+  border: 1px solid #d9dee7;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.security-card h2 {
+  margin: 0 0 32px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.password-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.change-password-btn {
+  padding: 12px 16px;
+  border: 1px solid #d9dee7;
+  border-radius: 7px;
+  background: #f5f6f8;
+  color: #111827;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.change-password-btn:hover {
+  background: #e9ebef;
+}
+
+/* =========================================
+   SESSIONS
+========================================= */
+
+.session-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: #f5f6f8;
+  border-radius: 8px;
+}
+
+.session-details h3 {
+  margin: 0 0 5px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.session-details p {
+  margin: 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.session-badge {
+  padding: 5px 13px;
+  background: #e9ebef;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.revoke-btn {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 7px;
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.revoke-btn:hover {
+  background: #b91c1c;
+}
+
+.revoke-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   NOTIFICATIONS TAB
+========================================= */
+
+.notification-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.notification-item:first-of-type {
+  padding-top: 0;
+}
+
+.notification-item:last-of-type {
+  border-bottom: none;
+}
+
+.notification-item h3 {
+  margin: 0 0 6px;
+  color: #111827;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.notification-item p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* =========================================
+   TOGGLE SWITCH
+========================================= */
+
+.switch {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 44px;
+  height: 24px;
+}
+
+.switch input {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: #d1d5db;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  bottom: 3px;
+  width: 18px;
+  height: 18px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  transition: transform 0.2s;
+}
+
+.switch input:checked + .slider {
+  background: #27a398;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(20px);
+}
+
+.switch input:focus-visible + .slider {
+  outline: 2px solid #27a398;
+  outline-offset: 3px;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 700px) {
+  .settings-page {
+    margin: 24px auto;
+    padding: 0 14px 24px;
+  }
+
+  .page-header h1 {
+    font-size: 26px;
+  }
+
+  .settings-tabs {
+    max-width: 100%;
+  }
+
+  .settings-tabs button {
+    padding: 9px;
+    font-size: 13px;
+  }
+
+  .settings-card,
+  .security-card {
+    padding: 20px;
+  }
+
+  .form-row,
+  .password-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .profile-summary {
+    gap: 14px;
+  }
+
+  .avatar {
+    width: 64px;
+    height: 64px;
+    font-size: 25px;
+  }
+
+  .profile-details h3 {
+    font-size: 18px;
+  }
+
+  .profile-details p {
+    font-size: 13px;
+  }
+
+  .notification-item {
+    gap: 12px;
+  }
+}
+
+/* ===== EXTRA COMPACT SETTINGS PAGE ===== */
+
+.settings-page {
+  width: 100%;
+  max-width: 680px;
+  margin: 18px auto;
+  padding: 0 10px 20px;
+  box-sizing: border-box;
+}
+
+/* Page heading */
+
+.page-header {
+  margin-bottom: 16px;
+}
+
+.page-header h1 {
+  font-size: 23px;
+  line-height: 1.3;
+  margin: 0;
+}
+
+/* Tabs */
+
+.settings-tabs {
+  gap: 3px;
+  padding: 3px;
+  margin-bottom: 14px;
+  border-radius: 7px;
+}
+
+.settings-tabs button {
+  font-size: 12px;
+  padding: 7px 10px;
+  gap: 5px;
+}
+
+.tab-icon {
+  font-size: 12px;
+}
+
+/* Card */
+
+.settings-card,
+.security-card {
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* Card heading */
+
+.card-heading {
+  margin-bottom: 20px;
+}
+
+.card-heading h2,
+.security-card h2 {
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+/* Profile */
+
+.profile-summary {
+  gap: 12px;
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  font-size: 21px;
+}
+
+.profile-details h3 {
+  font-size: 16px;
+  margin-bottom: 3px;
+}
+
+.profile-details p {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.role-badge {
+  font-size: 10px;
+  padding: 3px 8px;
+}
+
+/* Forms */
+
+.form-row,
+.password-row {
+  gap: 12px;
+}
+
+.form-group {
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  font-size: 12px;
+}
+
+.form-group input {
+  height: 36px;
+  min-height: 36px;
+  padding: 0 10px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+/* Buttons */
+
+.primary-button,
+.change-password-btn,
+.revoke-btn {
+  min-height: 34px;
+  padding: 8px 12px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+/* Security */
+
+.security-section {
+  gap: 14px;
+}
+
+.session-info {
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.session-details h3 {
+  font-size: 13px;
+}
+
+.session-details p {
+  font-size: 11px;
+}
+
+.session-badge {
+  font-size: 10px;
+}
+
+/* Notifications */
+
+.notification-item {
+  padding: 12px 0;
+}
+
+.notification-item h3 {
+  font-size: 13px;
+}
+
+.notification-item p {
+  font-size: 11px;
+}
+
+/* Responsive */
+
+@media (max-width: 700px) {
+  .settings-page {
+    max-width: 100%;
+    padding: 0 12px 20px;
+  }
+
+  .settings-card,
+  .security-card {
+    padding: 16px;
+  }
+
+  .form-row,
+  .password-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+/* ===== MEDIUM COMPACT SETTINGS SIZE ===== */
+
+.settings-page {
+  max-width: 740px;
+  margin: 24px auto;
+  padding: 0 12px 24px;
+}
+
+/* Heading */
+
+.page-header {
+  margin-bottom: 20px;
+}
+
+.page-header h1 {
+  font-size: 25px;
+}
+
+/* Tabs */
+
+.settings-tabs {
+  padding: 4px;
+  margin-bottom: 16px;
+}
+
+.settings-tabs button {
+  font-size: 13px;
+  padding: 8px 12px;
+}
+
+.tab-icon {
+  font-size: 13px;
+}
+
+/* Card */
+
+.settings-card,
+.security-card {
+  padding: 24px;
+  border-radius: 9px;
+}
+
+.card-heading {
+  margin-bottom: 24px;
+}
+
+.card-heading h2,
+.security-card h2 {
+  font-size: 18px;
+}
+
+/* Profile */
+
+.profile-summary {
+  gap: 15px;
+  padding-bottom: 18px;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 62px;
+  height: 62px;
+  min-width: 62px;
+  font-size: 24px;
+}
+
+.profile-details h3 {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.profile-details p {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.role-badge {
+  font-size: 12px;
+  padding: 4px 10px;
+}
+
+/* Forms */
+
+.form-row,
+.password-row {
+  gap: 16px;
+}
+
+.form-group {
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-size: 14px;
+}
+
+.form-group input {
+  height: 42px;
+  min-height: 42px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+/* Buttons */
+
+.primary-button,
+.change-password-btn,
+.revoke-btn {
+  min-height: 40px;
+  padding: 10px 14px;
+  font-size: 14px;
+}
+
+/* Notifications */
+
+.notification-item {
+  padding: 15px 0;
+}
+
+.notification-item h3 {
+  font-size: 14px;
+}
+
+.notification-item p {
+  font-size: 12px;
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+  .settings-page {
+    max-width: 100%;
+    padding: 0 12px 20px;
+  }
+
+  .settings-card,
+  .security-card {
+    padding: 18px;
+  }
+
+  .form-row,
+  .password-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+
+
+/* Expand only Notifications tab */
+.settings-page:has(.notification-settings) {
+  max-width: 890px;
+}
+
+/* White notification card */
+.notification-settings {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #d9dee7;
+  border-radius: 10px;
+  padding: 30px 31px;
+  margin-top: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* Notification Preferences title */
+.notification-settings .notification-title {
+  margin: 0 0 30px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Notification sections */
+.notification-settings .notification-group {
+  display: block;
+  width: 100%;
+  padding-bottom: 28px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #d9dee7;
+}
+
+.notification-settings .notification-group h3 {
+  display: block;
+  margin: 0 0 14px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #111827;
+}
+
+/* Every notification on a separate line */
+.notification-settings .notification-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-height: 46px;
+  padding: 0 0 0 30px;
+  box-sizing: border-box;
+  font-size: 17px;
+  font-weight: 400;
+  color: #111827;
+  cursor: pointer;
+}
+
+/* Hide default checkbox */
+.notification-settings .notification-row input[type="checkbox"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+/* Toggle track */
+.notification-settings .toggle-switch {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 56px;
+  height: 31px;
+  background: #dce0e5;
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+
+/* Toggle circle */
+.notification-settings .toggle-switch::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 25px;
+  height: 25px;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+/* Toggle ON */
+.notification-settings .notification-row input:checked + .toggle-switch {
+  background: #25a99e;
+}
+
+.notification-settings .notification-row input:checked + .toggle-switch::before {
+  transform: translateX(25px);
+}
+
+/* Toggle keyboard focus */
+.notification-settings .notification-row input:focus-visible + .toggle-switch {
+  outline: 2px solid #0d9488;
+  outline-offset: 3px;
+}
+
+/* Save Preferences button */
+.notification-settings .notification-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 4px;
+}
+
+.notification-settings .save-preferences {
+  padding: 12px 20px;
+  background: #25a99e;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.notification-settings .save-preferences:hover {
+  background: #168f85;
+}
+
+/* Success message */
+.notification-settings .notification-success {
+  margin-top: 12px;
+  color: #168f85;
+  font-size: 13px;
+}
+
+/* Mobile responsive */
+@media (max-width: 700px) {
+  .settings-page:has(.notification-settings) {
+    max-width: 100%;
+  }
+
+  .notification-settings {
+    padding: 20px;
+  }
+
+  .notification-settings .notification-row {
+    padding-left: 0;
+    font-size: 14px;
+  }
+}
+
+
+/* ===== SMALLER NOTIFICATIONS PAGE ===== */
+
+/* Reduce overall page width */
+.settings-page:has(.notification-settings) {
+  max-width: 740px;
+}
+
+/* Smaller white card */
+.notification-settings {
+  padding: 22px 24px;
+  border-radius: 8px;
+  margin-top: 0;
+}
+
+/* Smaller heading */
+.notification-settings .notification-title {
+  font-size: 18px;
+  margin-bottom: 22px;
+}
+
+/* Reduce section spacing */
+.notification-settings .notification-group {
+  padding-bottom: 18px;
+  margin-bottom: 20px;
+}
+
+/* Smaller section headings */
+.notification-settings .notification-group h3 {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+/* Smaller notification rows */
+.notification-settings .notification-row {
+  min-height: 38px;
+  padding-left: 24px;
+  font-size: 14px;
+  gap: 12px;
+}
+
+/* Smaller toggle switches */
+.notification-settings .toggle-switch {
+  width: 42px;
+  height: 24px;
+}
+
+/* Smaller toggle circle */
+.notification-settings .toggle-switch::before {
+  width: 18px;
+  height: 18px;
+  top: 3px;
+  left: 3px;
+}
+
+/* Adjust ON position */
+.notification-settings .notification-row input:checked
+  + .toggle-switch::before {
+  transform: translateX(18px);
+}
+
+/* Smaller save button */
+.notification-settings .save-preferences {
+  padding: 9px 14px;
+  font-size: 12px;
+  border-radius: 6px;
+}

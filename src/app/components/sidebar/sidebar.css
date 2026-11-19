@@ -1,0 +1,297 @@
+
+/* Sidebar Container */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 250px;
+  height: 100vh;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: #131720;
+  color: #cbd5e1;
+
+  padding: 12px 10px;
+
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  z-index: 1000;
+}
+
+/* SmartOps Branding */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 6px 4px 16px;
+  margin-bottom: 16px;
+
+  border-bottom: 1px solid #2b303b;
+}
+
+/* Logo */
+.sidebar-logo {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+
+  background: #26a69a;
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+}
+
+/* Logo Icon */
+.sidebar-logo svg {
+  width: 25px;
+  height: 25px;
+
+  fill: none;
+  stroke: white;
+  stroke-width: 2;
+}
+
+/* Brand Text */
+.brand-text {
+  min-width: 0;
+}
+
+.brand-text h2 {
+  margin: 0;
+
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.brand-text p {
+  margin: 4px 0 0;
+
+  color: #cbd5e1;
+  font-size: 12px;
+
+  white-space: nowrap;
+}
+
+/* Navigation Heading */
+.navigation-title {
+  margin: 0 10px 28px;
+
+  color: #8da2bf;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* Section Headings */
+.section-title {
+  margin: 0 10px 12px;
+
+  color: #8da2bf;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* Navigation Container */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Menu Items */
+.sidebar a.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  width: 100%;
+  min-height: 42px;
+
+  padding: 0 10px;
+
+  box-sizing: border-box;
+
+  color: #cbd5e1;
+  background: transparent;
+
+  border-radius: 8px;
+
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Prevent Visited Link Colors */
+.sidebar a.menu-item:link,
+.sidebar a.menu-item:visited {
+  color: #cbd5e1;
+  text-decoration: none;
+}
+
+/* Hover */
+.sidebar a.menu-item:hover {
+  color: #ffffff;
+  background: #1e2531;
+}
+
+/* Active Menu */
+.sidebar a.menu-item.active,
+.sidebar a.menu-item.active:visited {
+  color: #ffffff;
+  background: #242b37;
+}
+
+/* Icons */
+.sidebar .icon {
+  width: 22px;
+  min-width: 22px;
+  height: 22px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  color: #b9c1cc;
+  font-size: 19px;
+}
+
+/* Bell Icon */
+.sidebar .bell-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.8;
+}
+
+/* Keep Menu Text in One Line */
+.sidebar a.menu-item span:last-child {
+  white-space: nowrap;
+}
+
+/* Other Section */
+.other-section {
+  margin-top: 22px;
+}
+
+.other-section .section-title {
+  margin-bottom: 12px;
+}
+
+/* Scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #343b49;
+  border-radius: 10px;
+}
+
+/* Small Screens */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 230px;
+  }
+
+  .brand-text h2 {
+    font-size: 17px;
+  }
+
+  .sidebar a.menu-item {
+    font-size: 13px;
+  }
+}
+
+/* Compact Sidebar */
+.sidebar {
+  width: 230px;
+  padding: 10px 8px;
+}
+
+/* Logo Section */
+.sidebar-brand {
+  gap: 8px;
+  padding: 4px 5px 12px;
+  margin-bottom: 12px;
+}
+
+/* Logo Size */
+.sidebar-logo {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  flex: 0 0 36px;
+  border-radius: 9px;
+}
+
+.sidebar-logo svg {
+  width: 21px;
+  height: 21px;
+}
+
+/* Brand Text */
+.brand-text h2 {
+  font-size: 16px;
+}
+
+.brand-text p {
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+/* Navigation Heading */
+.navigation-title {
+  font-size: 12px;
+  margin: 0 8px 22px;
+}
+
+/* Section Headings */
+.section-title {
+  font-size: 12px;
+  margin: 0 8px 9px;
+}
+
+/* Menu Items */
+.sidebar a.menu-item {
+  min-height: 36px;
+  padding: 0 8px;
+  gap: 10px;
+  font-size: 13px;
+}
+
+/* Menu Icons */
+.sidebar .icon {
+  width: 19px;
+  min-width: 19px;
+  height: 19px;
+  font-size: 17px;
+}
+
+.sidebar .bell-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Other Section */
+.other-section {
+  margin-top: 16px;
+}

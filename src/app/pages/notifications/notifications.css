@@ -1,0 +1,466 @@
+
+:host {
+  display: block;
+  min-width: 0;
+  font-family: Inter, Arial, sans-serif;
+  color: #172033;
+}
+
+/* Main page */
+.notifications-page {
+  min-height: calc(100vh - 72px);
+  padding: 30px 32px;
+  background: #f6f8fb;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Header */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.5px;
+}
+
+.unread-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: #20a69d;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mark-all-button,
+.refresh-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border: 1px solid #dce2e9;
+  border-radius: 8px;
+  background: white;
+  color: #172033;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mark-all-button:hover,
+.refresh-button:hover {
+  border-color: #20a69d;
+  color: #14877f;
+}
+
+.mark-all-button:disabled,
+.refresh-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+
+.filters select {
+  min-width: 170px;
+  height: 43px;
+  padding: 0 14px;
+  border: 1px solid #dce2e9;
+  border-radius: 8px;
+  outline: none;
+  background: #f8fafc;
+  color: #172033;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.filters select:focus {
+  border-color: #20a69d;
+  background: #ffffff;
+}
+
+/* Notification list */
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Notification card */
+.notification-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 94px;
+  padding: 18px 20px;
+  border: 1px solid #e0e5ec;
+  border-radius: 10px;
+  background: #ffffff;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.025);
+  transition: border-color 0.2s ease;
+}
+
+.notification-card:hover {
+  border-color: #9edbd6;
+}
+
+/* Unread notification */
+.notification-card.unread {
+  background: #eaf4f5;
+  border-color: #a9dcd9;
+}
+
+/* Circular icon */
+.notification-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #cdebe9;
+  color: #16a39a;
+  font-size: 20px;
+}
+
+/* Content */
+.notification-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-body h3 {
+  margin: 0 0 6px;
+  color: #111827;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.notification-body .message {
+  margin: 0 0 8px;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* Metadata */
+.metadata {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  font-size: 12px;
+}
+
+.ticket-id {
+  color: #159c92;
+  font-weight: 600;
+}
+
+.timestamp {
+  color: #7c899b;
+}
+
+/* Badges */
+.status-badge,
+.channel-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 11px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-success {
+  color: #16835e;
+  background: #d7f2e5;
+  border: 1px solid #a8dec7;
+}
+
+.status-failed {
+  color: #dc2626;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+}
+
+.status-pending {
+  color: #a16207;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+}
+
+.channel-badge {
+  color: #374151;
+  background: #e9edf2;
+}
+
+/* Mark as read */
+.read-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #111827;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.read-button:hover {
+  background: #d4eeeb;
+  color: #0f766e;
+}
+
+/* Retry failed notification */
+.retry-button {
+  margin-top: 10px;
+  padding: 7px 12px;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  background: white;
+  color: #dc2626;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.retry-button:hover {
+  background: #fff1f2;
+}
+
+/* Loading, error, empty */
+.info-message,
+.error-message {
+  padding: 22px;
+  border: 1px solid #e0e5ec;
+  border-radius: 10px;
+  background: white;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.error-message {
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+.error-message button {
+  margin-left: 10px;
+  padding: 6px 12px;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  background: white;
+  color: #dc2626;
+  cursor: pointer;
+}
+
+/* Footer */
+.results-footer {
+  margin-top: 18px;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .notifications-page {
+    padding: 20px 16px;
+  }
+
+  .page-header {
+    align-items: flex-start;
+  }
+
+  .page-header h1 {
+    font-size: 24px;
+  }
+
+  .header-actions {
+    flex-wrap: wrap;
+  }
+
+  .filters select {
+    min-width: 140px;
+  }
+
+  .notification-card {
+    gap: 12px;
+    padding: 15px;
+  }
+
+  .notification-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 17px;
+  }
+
+  .notification-body h3 {
+    font-size: 13px;
+  }
+
+  .metadata {
+    gap: 6px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-title {
+    flex-wrap: wrap;
+  }
+
+  .filters select {
+    width: 100%;
+  }
+
+  .read-button {
+    width: 26px;
+  }
+}
+/* Slightly reduce Notifications page size */
+
+.notifications-page {
+  padding: 22px 26px;
+}
+
+/* Heading */
+.page-header {
+  margin-bottom: 22px;
+}
+
+.page-header h1 {
+  font-size: 24px;
+}
+
+.unread-badge {
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+/* Buttons */
+.mark-all-button,
+.refresh-button {
+  padding: 8px 13px;
+  font-size: 12px;
+}
+
+/* Filters */
+.filters {
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filters select {
+  min-width: 150px;
+  height: 37px;
+  font-size: 12px;
+}
+
+/* Notification cards */
+.notification-list {
+  gap: 10px;
+}
+
+.notification-card {
+  min-height: 76px;
+  padding: 12px 15px;
+  gap: 12px;
+  border-radius: 8px;
+}
+
+/* Icons */
+.notification-icon {
+  width: 34px;
+  height: 34px;
+  font-size: 17px;
+}
+
+/* Notification text */
+.notification-body h3 {
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.notification-body .message {
+  font-size: 11px;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+/* Metadata */
+.metadata {
+  gap: 6px 9px;
+  font-size: 11px;
+}
+
+.status-badge,
+.channel-badge {
+  padding: 3px 9px;
+  font-size: 10px;
+}
+
+/* Mark as read */
+.read-button {
+  width: 27px;
+  height: 27px;
+  font-size: 17px;
+}
+
+/* Retry */
+.retry-button {
+  margin-top: 7px;
+  padding: 5px 9px;
+  font-size: 11px;
+}
+
+/* Footer */
+.results-footer {
+  margin-top: 12px;
+  font-size: 11px;
+}

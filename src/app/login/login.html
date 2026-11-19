@@ -1,0 +1,81 @@
+
+<div class="login-page">
+
+  <div class="login-card">
+
+    <!-- SMARTOPS LOGO -->
+    <div class="logo">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true">
+
+        <path
+          d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46L12.08 9H19a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46L10.92 14z"/>
+      </svg>
+    </div>
+
+    <!-- LOGIN HEADING -->
+    <h1>SmartOps Hub</h1>
+
+    <p class="subtitle">
+      Super Admin Login
+    </p>
+
+    <!-- LOGIN FORM -->
+    <form (ngSubmit)="login()">
+
+      <!-- USERNAME -->
+      <div class="form-group">
+        <label for="username">Username</label>
+
+        <input
+          id="username"
+          type="text"
+          name="username"
+          [(ngModel)]="username"
+          placeholder="Enter username"
+          autocomplete="username"
+          required
+        />
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="form-group">
+        <label for="password">Password</label>
+
+        <input
+          id="password"
+          type="password"
+          name="password"
+          [(ngModel)]="password"
+          placeholder="Enter password"
+          autocomplete="current-password"
+          required
+        />
+      </div>
+
+      <!-- ERROR MESSAGE -->
+      <div class="error" *ngIf="error">
+        {{ error }}
+      </div>
+
+      <!-- LOGIN BUTTON -->
+      <button
+        type="submit"
+        [disabled]="loading">
+
+        {{ loading ? 'Logging in...' : 'Login' }}
+
+      </button>
+
+    </form>
+
+  </div>
+
+</div>

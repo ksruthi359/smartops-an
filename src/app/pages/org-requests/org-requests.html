@@ -1,0 +1,482 @@
+<div class="requests-page">
+
+  <!-- =========================
+       PAGE HEADER
+  ========================== -->
+
+  <div class="page-header">
+
+    <div class="title-section">
+
+      <div class="page-icon">
+        ▤
+      </div>
+
+      <div>
+
+        <h1>
+          Organization Requests
+        </h1>
+
+        <p>
+          Review and approve/reject incoming organization access requests
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       FILTER TABS
+  ========================== -->
+
+  <div class="filter-tabs">
+
+    <button
+      [class.active]="selectedFilter === 'All'"
+      (click)="setFilter('All')">
+
+      All ({{ getCount('All') }})
+
+    </button>
+
+
+    <button
+      [class.active]="selectedFilter === 'Pending'"
+      (click)="setFilter('Pending')">
+
+      Pending ({{ getCount('Pending') }})
+
+    </button>
+
+
+    <button
+      [class.active]="selectedFilter === 'Approved'"
+      (click)="setFilter('Approved')">
+
+      Approved ({{ getCount('Approved') }})
+
+    </button>
+
+
+    <button
+      [class.active]="selectedFilter === 'Rejected'"
+      (click)="setFilter('Rejected')">
+
+      Rejected ({{ getCount('Rejected') }})
+
+    </button>
+
+  </div>
+
+
+  <!-- =========================
+       LOADING
+  ========================== -->
+
+  <div
+    class="state-message"
+    *ngIf="loading">
+
+    Loading organization requests...
+
+  </div>
+
+
+  <!-- =========================
+       ERROR
+  ========================== -->
+
+  <div
+    class="state-message error"
+    *ngIf="!loading && error">
+
+    <span>
+      {{ error }}
+    </span>
+
+    <button
+      (click)="loadRequests()">
+
+      Retry
+
+    </button>
+
+  </div>
+
+
+  <!-- =========================
+       REQUEST CARDS
+  ========================== -->
+
+  <div
+    class="request-card"
+    *ngFor="let request of filteredRequests">
+
+
+    <!-- REQUEST HEADER -->
+
+    <div class="request-header">
+
+      <div class="organization">
+
+        <div class="organization-logo">
+
+          {{ request.organizationName.charAt(0) }}
+
+        </div>
+
+
+        <div>
+
+          <h2>
+            {{ request.organizationName }}
+          </h2>
+
+          <span>
+            {{ request.adminName }}
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- STATUS -->
+
+      <div
+        class="status"
+
+        [class.pending]="
+          request.status === 'Pending'
+        "
+
+        [class.approved]="
+          request.status === 'Approved'
+        "
+
+        [class.rejected]="
+          request.status === 'Rejected'
+        ">
+
+        {{ request.status }}
+
+      </div>
+
+    </div>
+
+
+    <!-- DETAILS -->
+
+    <div class="details-grid">
+
+      <div>
+
+        <span class="icon">
+          ✉
+        </span>
+
+        {{ request.email }}
+
+      </div>
+
+
+      <div>
+
+        <span class="icon">
+          ☎
+        </span>
+
+        {{ request.phone }}
+
+      </div>
+
+
+      <div>
+
+        <span class="icon">
+          ▣
+        </span>
+
+        {{ request.industry }}
+
+      </div>
+
+
+      <div>
+
+        <span class="icon">
+          ♙
+        </span>
+
+        {{ request.companySize }}
+
+      </div>
+
+    </div>
+
+
+    <!-- REQUEST CONTENT -->
+
+    <div class="request-content">
+
+      <p>
+
+        <strong>
+          Use case:
+        </strong>
+
+        {{ request.useCase }}
+
+      </p>
+
+
+      <p>
+
+        <strong>
+          Message:
+        </strong>
+
+        {{ request.message }}
+
+      </p>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <div class="request-footer">
+
+      <span>
+
+        Submitted {{ request.submittedDate }}
+
+      </span>
+
+
+      <!-- APPROVE / REJECT -->
+
+      <div
+        class="actions"
+
+        *ngIf="
+          request.status === 'Pending'
+        ">
+
+        <button
+          class="approve"
+          (click)="approveRequest(request)">
+
+          ✓ Approve
+
+        </button>
+
+
+        <button
+          class="reject"
+          (click)="rejectRequest(request)">
+
+          ✕ Reject
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       EMPTY STATE
+  ========================== -->
+
+  <div
+    class="empty"
+
+    *ngIf="
+      !loading &&
+      !error &&
+      filteredRequests.length === 0
+    ">
+
+    No organization requests found.
+
+  </div>
+
+
+  <!-- ==================================================
+       APPROVE MODAL
+  =================================================== -->
+
+  <div
+    class="modal-overlay"
+    *ngIf="showApproveModal && selectedRequest">
+
+
+    <div class="modal">
+
+
+      <!-- MODAL HEADER -->
+
+      <div class="modal-header">
+
+        <h2>
+          Approve Request
+        </h2>
+
+        <button
+          class="close-button"
+          type="button"
+          (click)="cancelApproval()">
+
+          ×
+
+        </button>
+
+      </div>
+
+
+      <!-- MODAL DESCRIPTION -->
+
+      <p class="modal-description">
+
+        This will create an admin account for
+        "<strong>{{ selectedRequest.organizationName }}</strong>"
+        and send credentials to
+        <strong>{{ selectedRequest.email }}</strong>.
+
+      </p>
+
+
+      <!-- NOTES -->
+
+      <label>
+        Notes (optional)
+      </label>
+
+      <textarea
+        [(ngModel)]="approvalNotes"
+        placeholder="Welcome message or special instructions...">
+      </textarea>
+
+
+      <!-- MODAL ACTIONS -->
+
+      <div class="modal-actions">
+
+        <button
+          class="cancel-button"
+          type="button"
+          (click)="cancelApproval()">
+
+          Cancel
+
+        </button>
+
+
+        <button
+          class="confirm-approve"
+          type="button"
+          (click)="confirmApproval()">
+
+          Confirm Approval
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ==================================================
+       REJECT MODAL
+  =================================================== -->
+
+  <div
+    class="modal-overlay"
+    *ngIf="showRejectModal && selectedRequest">
+
+
+    <div class="modal">
+
+
+      <!-- MODAL HEADER -->
+
+      <div class="modal-header">
+
+        <h2>
+          Reject Request
+        </h2>
+
+        <button
+          class="close-button"
+          type="button"
+          (click)="cancelRejection()">
+
+          ×
+
+        </button>
+
+      </div>
+
+
+      <!-- MODAL DESCRIPTION -->
+
+      <p class="modal-description">
+
+        This will reject the request from
+        "<strong>{{ selectedRequest.organizationName }}</strong>".
+        They will be notified via email.
+
+      </p>
+
+
+      <!-- NOTES -->
+
+      <label>
+        Notes (optional)
+      </label>
+
+      <textarea
+        [(ngModel)]="rejectionNotes"
+        placeholder="Reason for rejection...">
+      </textarea>
+
+
+      <!-- MODAL ACTIONS -->
+
+      <div class="modal-actions">
+
+        <button
+          class="cancel-button"
+          type="button"
+          (click)="cancelRejection()">
+
+          Cancel
+
+        </button>
+
+
+        <button
+          class="confirm-reject"
+          type="button"
+          (click)="confirmRejection()">
+
+          Confirm Rejection
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,163 @@
+
+<div class="settings-page">
+  <header class="page-header">
+    <h1>⚙ System Settings</h1>
+    <p>Platform-wide configuration and feature flags</p>
+  </header>
+
+  <nav class="settings-tabs">
+    <button
+      [class.active]="activeTab === 'platform'"
+      (click)="setTab('platform')">
+      ◎ Platform
+    </button>
+
+    <button
+      [class.active]="activeTab === 'features'"
+      (click)="setTab('features')">
+      ◉ Feature Flags
+    </button>
+
+    <button
+      [class.active]="activeTab === 'security'"
+      (click)="setTab('security')">
+      ♢ Security
+    </button>
+
+    <button
+      [class.active]="activeTab === 'email'"
+      (click)="setTab('email')">
+      ✉ Email
+    </button>
+  </nav>
+
+  <section class="settings-card">
+
+    <div *ngIf="activeTab === 'platform'">
+      <h2>Platform Settings</h2>
+      <p class="description">General platform configuration</p>
+
+      <div class="form-grid">
+        <label>
+          Platform Name
+          <input [(ngModel)]="platformName">
+        </label>
+
+        <label>
+          Tagline
+          <input [(ngModel)]="tagline">
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <strong>Maintenance Mode</strong>
+          <p>Only super admins can access the platform</p>
+        </div>
+        <input type="checkbox" [(ngModel)]="maintenanceMode">
+      </div>
+    </div>
+
+    <div *ngIf="activeTab === 'features'">
+      <h2>Feature Flags</h2>
+      <p class="description">Enable or disable platform features</p>
+
+      <label class="toggle-row">
+        <span>AI Features</span>
+        <input type="checkbox" [(ngModel)]="featureFlags.aiEnabled">
+      </label>
+
+      <label class="toggle-row">
+        <span>Knowledge Base</span>
+        <input type="checkbox" [(ngModel)]="featureFlags.knowledgeBase">
+      </label>
+
+      <label class="toggle-row">
+        <span>Notifications</span>
+        <input type="checkbox" [(ngModel)]="featureFlags.notifications">
+      </label>
+    </div>
+
+    <!-- SECURITY TAB -->
+<div *ngIf="activeTab === 'security'" class="security-section">
+
+  <h2>Security Settings</h2>
+  <p class="description">
+    Platform-wide security configuration
+  </p>
+
+  <div class="security-grid">
+
+    <!-- Max Login Attempts -->
+    <label class="security-field">
+      Max Login Attempts
+      <input
+        type="number"
+        min="1"
+        [(ngModel)]="security.maxLoginAttempts">
+    </label>
+
+    <!-- Session Timeout -->
+    <label class="security-field">
+      Session Timeout (minutes)
+      <input
+        type="number"
+        min="1"
+        [(ngModel)]="security.sessionTimeout">
+    </label>
+
+    <!-- Minimum Password Length -->
+    <label class="security-field">
+      Min Password Length
+      <input
+        type="number"
+        min="1"
+        [(ngModel)]="security.minPasswordLength">
+    </label>
+
+  </div>
+
+  <div class="security-divider"></div>
+
+  <!-- Enforce SSO -->
+  <div class="security-toggle-row">
+    <div>
+      <strong>Enforce SSO</strong>
+      <p>Require organizations to use SSO for authentication</p>
+    </div>
+
+    <label class="security-switch">
+      <input
+        type="checkbox"
+        [(ngModel)]="security.enforceSSO">
+
+      <span class="security-slider"></span>
+    </label>
+  </div>
+
+</div>
+
+    <div *ngIf="activeTab === 'email'">
+      <h2>Email Settings</h2>
+      <p class="description">Configure outgoing email details</p>
+
+      <label class="form-field">
+        Sender Name
+        <input [(ngModel)]="email.senderName">
+      </label>
+
+      <label class="form-field">
+        Sender Email
+        <input type="email" [(ngModel)]="email.senderEmail">
+      </label>
+    </div>
+
+    <p *ngIf="message" class="success-message">
+      {{ message }}
+    </p>
+
+    <button class="save-button" (click)="saveSettings()">
+      Save Changes
+    </button>
+  </section>
+</div>

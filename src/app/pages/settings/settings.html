@@ -1,0 +1,314 @@
+
+<div class="settings-page">
+
+  <div class="page-header">
+    <h1>Settings</h1>
+    
+  </div>
+
+  <div class="settings-tabs">
+    <button
+      type="button"
+      [class.active]="activeTab === 'profile'"
+      (click)="setTab('profile')">
+      Profile
+    </button>
+
+    <button
+      type="button"
+      [class.active]="activeTab === 'security'"
+      (click)="setTab('security')">
+      Security
+    </button>
+
+    <button
+      type="button"
+      [class.active]="activeTab === 'notifications'"
+      (click)="setTab('notifications')">
+      Notifications
+    </button>
+  </div>
+
+  <!-- PROFILE TAB -->
+  <section class="settings-card" *ngIf="activeTab === 'profile'">
+    <div class="card-heading">
+      <h2>Profile Information</h2>
+     
+    </div>
+
+    <div class="profile-summary">
+      <div class="avatar">S</div>
+
+      <div class="profile-details">
+        <h3>{{ username }}</h3>
+        <p>{{ email }}</p>
+        <span class="role-badge">Super_admin</span>
+      </div>
+    </div>
+
+    <form (ngSubmit)="saveProfile()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            id="username"
+            type="text"
+            name="username"
+            [(ngModel)]="username"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            [(ngModel)]="email"
+            required>
+        </div>
+      </div>
+
+      <p class="success-message" *ngIf="savedMessage">
+        {{ savedMessage }}
+      </p>
+
+      <div class="form-actions">
+        <button class="primary-button" type="submit">
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- SECURITY TAB -->
+ 
+<!-- SECURITY TAB -->
+<div
+  class="security-section"
+  *ngIf="activeTab === 'security'">
+
+  <!-- CHANGE PASSWORD CARD -->
+  <section class="security-card">
+
+   
+     <h2>Change Password</h2>
+ 
+
+    <form (ngSubmit)="changePassword()">
+
+      <!-- Current Password -->
+      
+      <div class="form-group full-width">
+        <label for="currentPassword">
+          Current Password
+        </label>
+
+        <input
+          id="currentPassword"
+          type="password"
+          name="currentPassword"
+          [(ngModel)]="currentPassword"
+          placeholder="Enter current password"
+          autocomplete="current-password"
+          required>
+      </div>
+
+      <!-- New and Confirm Password -->
+      <div class="password-row">
+
+        <div class="form-group">
+          <label for="newPassword">
+            New Password
+          </label>
+
+          <input
+            id="newPassword"
+            type="password"
+            name="newPassword"
+            [(ngModel)]="newPassword"
+            placeholder="New password"
+            autocomplete="new-password"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">
+            Confirm New Password
+          </label>
+
+          <input
+            id="confirmPassword"
+            type="password"
+            name="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            placeholder="Confirm password"
+            autocomplete="new-password"
+            required>
+        </div>
+
+      </div>
+
+      <p
+        class="success-message"
+        *ngIf="securityMessage &&
+               securityMessage.startsWith('Validation')">
+        {{ securityMessage }}
+      </p>
+
+      <p
+        class="error-message"
+        *ngIf="securityMessage &&
+               !securityMessage.startsWith('Validation')">
+        {{ securityMessage }}
+      </p>
+
+      <div class="security-actions">
+        <button
+          class="change-password-btn"
+          type="submit">
+          Change Password
+        </button>
+      </div>
+
+    </form>
+  </section>
+
+  <!-- SESSIONS CARD -->
+  <section class="security-card sessions-card">
+
+    <h2>Sessions</h2>
+
+    <div class="session-info">
+
+      <div class="session-details">
+        <h3>Current Session</h3>
+        <p>Browser · Last active now</p>
+      </div>
+
+      <span class="session-badge">
+        Active
+      </span>
+
+    </div>
+
+    <button
+      type="button"
+      class="revoke-btn"
+      disabled
+      title="Backend session management required">
+      Revoke All Other Sessions
+    </button>
+
+  </section>
+
+</div>
+
+
+  <!-- NOTIFICATIONS TAB -->
+   
+<div
+  *ngIf="activeTab === 'notifications'"
+  class="notification-settings"
+>
+  <h2 class="notification-title">
+    Notification Preferences
+  </h2>
+
+  <!-- IN-APP NOTIFICATIONS -->
+  <div class="notification-group">
+    <h3>♧ &nbsp; In-App Notifications</h3>
+
+    <label class="notification-row">
+      <span>Ticket assigned to me</span>
+      <input type="checkbox" [(ngModel)]="notificationPreferences.ticketAssigned">
+      <span class="toggle-switch"></span>
+    </label>
+
+    <label class="notification-row">
+      <span>Ticket status changes</span>
+      <input type="checkbox" [(ngModel)]="notificationPreferences.ticketStatusChanges">
+      <span class="toggle-switch"></span>
+    </label>
+
+    <label class="notification-row">
+      <span>New comments on my tickets</span>
+      <input type="checkbox" [(ngModel)]="notificationPreferences.newComments">
+      <span class="toggle-switch"></span>
+    </label>
+
+    <label class="notification-row">
+      <span>SLA breach warnings</span>
+      <input type="checkbox" [(ngModel)]="notificationPreferences.slaWarnings">
+      <span class="toggle-switch"></span>
+    </label>
+
+    <label class="notification-row">
+      <span>AI suggestions available</span>
+      <input type="checkbox" [(ngModel)]="notificationPreferences.aiSuggestions">
+      <span class="toggle-switch"></span>
+    </label>
+  </div>
+
+  <!-- EMAIL NOTIFICATIONS -->
+  <div class="notification-group">
+    <h3>✉ &nbsp; Email Notifications</h3>
+
+    <label class="notification-row">
+      <span>Ticket updates</span>
+      <input type="checkbox" [(ngModel)]="notificationPreferences.emailTicketUpdates">
+      <span class="toggle-switch"></span>
+    </label>
+
+    <label class="notification-row">
+      <span>Weekly digest</span>
+      <input type="checkbox" [(ngModel)]="notificationPreferences.weeklyDigest">
+      <span class="toggle-switch"></span>
+    </label>
+
+    <label class="notification-row">
+      <span>Mentions</span>
+      <input type="checkbox" [(ngModel)]="notificationPreferences.emailMentions">
+      <span class="toggle-switch"></span>
+    </label>
+  </div>
+
+  <!-- SLACK NOTIFICATIONS -->
+  <div class="notification-group">
+    <h3>▢ &nbsp; Slack Notifications</h3>
+
+    <label class="notification-row">
+      <span>Urgent ticket alerts</span>
+      <input type="checkbox" [(ngModel)]="notificationPreferences.slackUrgentAlerts">
+      <span class="toggle-switch"></span>
+    </label>
+
+    <label class="notification-row">
+      <span>SLA breach alerts</span>
+      <input type="checkbox" [(ngModel)]="notificationPreferences.slackSlaAlerts">
+      <span class="toggle-switch"></span>
+    </label>
+
+    <label class="notification-row">
+      <span>Team mentions</span>
+      <input type="checkbox" [(ngModel)]="notificationPreferences.slackTeamMentions">
+      <span class="toggle-switch"></span>
+    </label>
+  </div>
+
+  <div class="notification-footer">
+    <button
+      type="button"
+      class="save-preferences"
+      (click)="saveNotifications()"
+    >
+      Save Preferences
+    </button>
+  </div>
+
+  <p class="notification-success" *ngIf="notificationMessage">
+  {{ notificationMessage }}
+</p>
+</div>
+
+  
