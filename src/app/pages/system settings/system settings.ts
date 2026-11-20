@@ -1,7 +1,15 @@
-
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient ,HttpHeaders} from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
+
+interface FeatureFlag {
+  key: string;
+  label: string;
+  description: string;
+  enabled: boolean;
+  editable: boolean;
+}
 
 @Component({
   selector: 'app-system-settings',
@@ -11,59 +19,159 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './system settings.css'
 })
 export class SystemSettings {
-
   activeTab = 'platform';
+  message = '';
 
-  // PLATFORM SETTINGS
+  // Platform settings
   platformName = 'SmartOps Hub';
   tagline = 'AI-Powered Internal Ticketing';
   maintenanceMode = false;
 
-  // FEATURE FLAGS
-  featureFlags = {
-    aiEnabled: true,
-    knowledgeBase: true,
-    notifications: true
+  // Feature flags
+  private readonly featureFlagsUrl =
+    'http://127.0.0.1:8000/api/v1/super_admin_dashboard/feature-flags/';
+
+  private savedFlagValues = new Map<string, boolean>();
+
+  featureFlags: FeatureFlag[] = [];
+  loadingFlags = false;
+  savingFlags = false;
+  flagError = '';
+  flagMessage = '';
+
+  // Security settings
+  security = {
+    maxLoginAttempts: 5,
+    sessionTimeout: 60,
+    minPasswordLength: 8,
+    enforceSSO: false,
+    mfaRequired: false
   };
 
-  // SECURITY SETTINGS
-  security = {
-  maxLoginAttempts: 5,
-  sessionTimeout: 60,
-  minPasswordLength: 8,
-  enforceSSO: false,
-  mfaRequired: false
-};
-
-  // EMAIL SETTINGS
+  // Email settings
   email = {
     senderName: 'SmartOps Hub',
     senderEmail: 'noreply@example.com'
   };
 
-  message = '';
+  constructor(
+    private readonly http: HttpClient,
+    private readonly changeDetector: ChangeDetectorRef
+  ) {}
 
-  // SWITCH BETWEEN TABS
   setTab(tab: string): void {
     this.activeTab = tab;
     this.message = '';
+
+    if (tab === 'features' && !this.hasFlagChanges) {
+      this.loadFeatureFlags();
+    }
   }
 
-  // SAVE SETTINGS
+  get hasFlagChanges(): boolean {
+    return this.featureFlags.some(
+      flag => flag.editable && this.savedFlagValues.get(flag.key) !== flag.enabled
+    );
+  }
+private getHeaders(): HttpHeaders | null {
+  const token = localStorage.getItem('access_token');
+
+  if (!token) {
+    return null;
+  }
+
+  return new HttpHeaders({
+    Authorization: `Bearer ${token}`
+  });
+}
+  loadFeatureFlags(): void {
+    if (this.loadingFlags || this.savingFlags) return;
+    const headers = this.getHeaders();
+if (!headers) {
+  this.flagError = 'Please log in again to load feature flags.';
+  return;
+}
+
+    this.loadingFlags = true;
+    this.flagError = '';
+    this.flagMessage = '';
+
+    this.http.get<FeatureFlag[]>(this.featureFlagsUrl, { headers }).subscribe({
+      next: flags => {
+        this.applySavedFlags(flags);
+        this.loadingFlags = false;
+        this.changeDetector.markForCheck();
+      },
+      error: () => {
+        this.loadingFlags = false;
+        this.flagError = 'Unable to load feature flags.';
+        this.changeDetector.markForCheck();
+      }
+    });
+  }
+
+  toggleFlag(flag: FeatureFlag): void {
+    if (!flag.editable || this.loadingFlags || this.savingFlags) return;
+
+    flag.enabled = !flag.enabled;
+    this.flagMessage = '';
+  }
+
+  saveFeatureFlags(): void {
+    if (this.loadingFlags || this.savingFlags) return;
+
+    this.flagError = '';
+    this.flagMessage = '';
+
+    if (!this.hasFlagChanges) {
+      this.flagMessage = 'No changes to save.';
+      return;
+    }
+
+    const changes: Record<string, boolean> = {};
+
+    for (const flag of this.featureFlags) {
+      if (flag.editable && this.savedFlagValues.get(flag.key) !== flag.enabled) {
+        changes[flag.key] = flag.enabled;
+      }
+    }
+
+    const headers = this.getHeaders();
+if (!headers) {
+  this.flagError = 'Please log in again to save feature flags.';
+  return;
+}
+
+this.savingFlags = true;
+
+this.http.patch<FeatureFlag[]>(this.featureFlagsUrl, changes, { headers }).subscribe({
+      next: flags => {
+        this.applySavedFlags(flags);
+        this.savingFlags = false;
+        this.flagMessage = 'Feature flags saved.';
+        this.changeDetector.markForCheck();
+      },
+      error: () => {
+        this.savingFlags = false;
+        this.flagError = 'Unable to save feature flags. Please try again.';
+        this.changeDetector.markForCheck();
+      }
+    });
+  }
+
   saveSettings(): void {
+    if (this.activeTab === 'features') {
+      this.saveFeatureFlags();
+      return;
+    }
 
-    const settingsData = {
-      platformName: this.platformName,
-      tagline: this.tagline,
-      maintenanceMode: this.maintenanceMode,
-      featureFlags: this.featureFlags,
-      security: this.security,
-      email: this.email
-    };
-
-    console.log('System Settings:', settingsData);
-
-    // Backend API integration will be added here.
     this.message = 'Settings updated on this page (not saved to server).';
+  }
+
+  private applySavedFlags(flags: FeatureFlag[]): void {
+    this.featureFlags = flags;
+    this.savedFlagValues = new Map(
+      flags.map(flag => [flag.key, flag.enabled])
+    );
   }
 }

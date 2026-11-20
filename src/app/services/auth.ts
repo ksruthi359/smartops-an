@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, switchMap, tap } from 'rxjs';
+import { Observable, map, switchMap, tap , throwError  } from 'rxjs';
+
 
 export interface UserInformation {
   'User Id': number;
@@ -119,7 +120,24 @@ login(
       return null;
     }
   }
- 
+  logoutSession(): Observable<{ Message: string }> {
+    const accessToken = this.getAccessToken();
+    const refreshToken = localStorage.getItem('refresh_token');
+
+    if (!accessToken || !refreshToken) {
+      return throwError(() => new Error(
+        'Session tokens are missing. Please sign in again.'
+      ));
+    }
+
+    return this.http.post<{ Message: string }>(
+      `${this.apiUrl}/logout/`,
+      { refresh: refreshToken },
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    ).pipe(
+      tap(() => this.logout())
+    );
+  }
   logout(): void {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');

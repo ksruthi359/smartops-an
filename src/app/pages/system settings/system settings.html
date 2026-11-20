@@ -1,30 +1,33 @@
-
 <div class="settings-page">
   <header class="page-header">
     <h1>⚙ System Settings</h1>
     <p>Platform-wide configuration and feature flags</p>
   </header>
 
-  <nav class="settings-tabs">
+  <nav class="settings-tabs" aria-label="System settings">
     <button
+      type="button"
       [class.active]="activeTab === 'platform'"
       (click)="setTab('platform')">
       ◎ Platform
     </button>
 
     <button
+      type="button"
       [class.active]="activeTab === 'features'"
       (click)="setTab('features')">
       ◉ Feature Flags
     </button>
 
     <button
+      type="button"
       [class.active]="activeTab === 'security'"
       (click)="setTab('security')">
       ♢ Security
     </button>
 
     <button
+      type="button"
       [class.active]="activeTab === 'email'"
       (click)="setTab('email')">
       ✉ Email
@@ -32,7 +35,7 @@
   </nav>
 
   <section class="settings-card">
-
+    <!-- Platform tab -->
     <div *ngIf="activeTab === 'platform'">
       <h2>Platform Settings</h2>
       <p class="description">General platform configuration</p>
@@ -40,12 +43,12 @@
       <div class="form-grid">
         <label>
           Platform Name
-          <input [(ngModel)]="platformName">
+          <input type="text" [(ngModel)]="platformName">
         </label>
 
         <label>
           Tagline
-          <input [(ngModel)]="tagline">
+          <input type="text" [(ngModel)]="tagline">
         </label>
       </div>
 
@@ -54,96 +57,116 @@
           <strong>Maintenance Mode</strong>
           <p>Only super admins can access the platform</p>
         </div>
-        <input type="checkbox" [(ngModel)]="maintenanceMode">
+
+        <input
+          type="checkbox"
+          aria-label="Maintenance Mode"
+          [(ngModel)]="maintenanceMode">
       </div>
     </div>
 
+    <!-- Feature Flags tab -->
     <div *ngIf="activeTab === 'features'">
       <h2>Feature Flags</h2>
       <p class="description">Enable or disable platform features</p>
 
-      <label class="toggle-row">
-        <span>AI Features</span>
-        <input type="checkbox" [(ngModel)]="featureFlags.aiEnabled">
-      </label>
+      <p *ngIf="loadingFlags" role="status">Loading feature flags…</p>
 
-      <label class="toggle-row">
-        <span>Knowledge Base</span>
-        <input type="checkbox" [(ngModel)]="featureFlags.knowledgeBase">
-      </label>
+      <p *ngIf="flagError" role="alert">{{ flagError }}</p>
 
-      <label class="toggle-row">
-        <span>Notifications</span>
-        <input type="checkbox" [(ngModel)]="featureFlags.notifications">
-      </label>
+      <button
+        *ngIf="flagError && !featureFlags.length && !loadingFlags"
+        type="button"
+        (click)="loadFeatureFlags()">
+        Retry
+      </button>
+
+      <div *ngFor="let flag of featureFlags" class="flag-row">
+        <div>
+          <strong>{{ flag.label }}</strong>
+          <p>{{ flag.description }}</p>
+        </div>
+
+        <div class="flag-controls">
+          <span class="flag-badge" [class.flag-on]="flag.enabled">
+            {{ flag.enabled ? 'ON' : 'OFF' }}
+          </span>
+
+          <button
+            type="button"
+            class="flag-switch"
+            role="switch"
+            [class.flag-on]="flag.enabled"
+            [attr.aria-label]="flag.label"
+            [attr.aria-checked]="flag.enabled"
+            [disabled]="!flag.editable || loadingFlags || savingFlags"
+            (click)="toggleFlag(flag)">
+          </button>
+        </div>
+      </div>
+
+      <p *ngIf="flagMessage" class="success-message" role="status">
+        {{ flagMessage }}
+      </p>
     </div>
 
-    <!-- SECURITY TAB -->
-<div *ngIf="activeTab === 'security'" class="security-section">
+    <!-- Security tab -->
+    <div *ngIf="activeTab === 'security'" class="security-section">
+      <h2>Security Settings</h2>
+      <p class="description">Platform-wide security configuration</p>
 
-  <h2>Security Settings</h2>
-  <p class="description">
-    Platform-wide security configuration
-  </p>
+      <div class="security-grid">
+        <label class="security-field">
+          Max Login Attempts
+          <input
+            type="number"
+            min="1"
+            [(ngModel)]="security.maxLoginAttempts">
+        </label>
 
-  <div class="security-grid">
+        <label class="security-field">
+          Session Timeout (minutes)
+          <input
+            type="number"
+            min="1"
+            [(ngModel)]="security.sessionTimeout">
+        </label>
 
-    <!-- Max Login Attempts -->
-    <label class="security-field">
-      Max Login Attempts
-      <input
-        type="number"
-        min="1"
-        [(ngModel)]="security.maxLoginAttempts">
-    </label>
+        <label class="security-field">
+          Min Password Length
+          <input
+            type="number"
+            min="1"
+            [(ngModel)]="security.minPasswordLength">
+        </label>
+      </div>
 
-    <!-- Session Timeout -->
-    <label class="security-field">
-      Session Timeout (minutes)
-      <input
-        type="number"
-        min="1"
-        [(ngModel)]="security.sessionTimeout">
-    </label>
+      <div class="security-divider"></div>
 
-    <!-- Minimum Password Length -->
-    <label class="security-field">
-      Min Password Length
-      <input
-        type="number"
-        min="1"
-        [(ngModel)]="security.minPasswordLength">
-    </label>
+      <div class="security-toggle-row">
+        <div>
+          <strong>Enforce SSO</strong>
+          <p>Require organizations to use SSO for authentication</p>
+        </div>
 
-  </div>
-
-  <div class="security-divider"></div>
-
-  <!-- Enforce SSO -->
-  <div class="security-toggle-row">
-    <div>
-      <strong>Enforce SSO</strong>
-      <p>Require organizations to use SSO for authentication</p>
+        <label class="security-switch">
+          <input
+            type="checkbox"
+            aria-label="Enforce SSO"
+            [(ngModel)]="security.enforceSSO">
+          <span class="security-slider"></span>
+        </label>
+      </div>
     </div>
 
-    <label class="security-switch">
-      <input
-        type="checkbox"
-        [(ngModel)]="security.enforceSSO">
-
-      <span class="security-slider"></span>
-    </label>
-  </div>
-
-</div>
-
+    <!-- Email tab -->
     <div *ngIf="activeTab === 'email'">
       <h2>Email Settings</h2>
       <p class="description">Configure outgoing email details</p>
 
       <label class="form-field">
         Sender Name
-        <input [(ngModel)]="email.senderName">
+        <input type="text" [(ngModel)]="email.senderName">
       </label>
 
       <label class="form-field">
@@ -152,12 +175,17 @@
       </label>
     </div>
 
-    <p *ngIf="message" class="success-message">
+    <p *ngIf="message" class="success-message" role="status">
       {{ message }}
     </p>
 
-    <button class="save-button" (click)="saveSettings()">
-      Save Changes
+    <button
+      type="button"
+      class="save-button"
+      [disabled]="activeTab === 'features' &&
+        (loadingFlags || savingFlags || !hasFlagChanges)"
+      (click)="saveSettings()">
+      {{ activeTab === 'features' && savingFlags ? 'Saving…' : 'Save Changes' }}
     </button>
   </section>
 </div>

@@ -43,9 +43,18 @@
 
 
     <!-- Logout -->
-    <button class="logout">
-      ↪
-    </button>
+<button
+  type="button"
+  class="logout"
+  aria-label="Log out"
+  (click)="logout()"
+  [disabled]="loggingOut">
+  <span class="logout-icon" aria-hidden="true"></span>
+</button>
+
+@if (logoutError) {
+  <p role="alert">{{ logoutError }}</p>
+}
 
   </div>
 

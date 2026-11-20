@@ -9,6 +9,7 @@ import { Tickets } from './tickets/tickets';
 import { SystemSettings } from './pages/system settings/system settings';
 import { Notifications } from './pages/notifications/notifications';
 import { Settings } from './pages/settings/settings';
+import { TicketDetail } from './tickets/ticket-detail';
 
 export const routes: Routes = [
   {
@@ -47,5 +48,13 @@ export const routes: Routes = [
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
-  }
+  },
+  {
+  path: 'super-admin/tickets',
+  component: Tickets
+},
+{
+  path: 'super-admin/tickets/:id',
+  component: TicketDetail
+},
 ];

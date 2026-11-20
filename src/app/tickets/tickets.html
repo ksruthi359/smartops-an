@@ -1,79 +1,124 @@
 <div class="tickets-page">
+  <header class="tickets-heading">
+    <h1>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true">
+        <path d="M4 5h16v4a3 3 0 0 0 0 6v4H4v-4a3 3 0 0 0 0-6V5Z" />
+        <path d="M13 8v2m0 4v2" />
+      </svg>
+      All Tickets
+    </h1>
+    <p>View tickets across all organizations</p>
+  </header>
 
-  <div class="page-header">
-    <div>
-      <h1>Tickets</h1>
-      <p>Manage and monitor support tickets</p>
-    </div>
+  <div class="ticket-filters" role="group" aria-label="Ticket filters">
+    <label class="ticket-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m16 16 4 4" />
+      </svg>
+      <input
+        type="search"
+        aria-label="Search tickets"
+        placeholder="Search tickets..."
+        [(ngModel)]="searchTerm"
+      />
+    </label>
 
-    <button (click)="loadTickets()">
-      Refresh
-    </button>
+    <select aria-label="Filter by organization" [(ngModel)]="selectedOrganization">
+      <option value="">All Orgs</option>
+      <option *ngFor="let org of organizationOptions" [value]="org">
+        {{ org }}
+      </option>
+    </select>
+
+    <select aria-label="Filter by status" [(ngModel)]="selectedStatus">
+      <option value="">All Status</option>
+      <option *ngFor="let status of statusOptions" [value]="status">
+        {{ statusLabel(status) }}
+      </option>
+    </select>
+
+    <select aria-label="Filter by priority" [(ngModel)]="selectedPriority">
+      <option value="">All Priority</option>
+      <option *ngFor="let priority of priorityOptions" [value]="priority">
+        {{ priorityLabel(priority) }}
+      </option>
+    </select>
   </div>
 
-  <!-- Loading -->
-  <div *ngIf="loading">
-    Loading tickets...
-  </div>
+  <p *ngIf="loading" class="ticket-message" role="status">Loading tickets…</p>
 
-  <!-- Error -->
-  <div *ngIf="error">
+  <div *ngIf="!loading && error" class="ticket-message ticket-error" role="alert">
     {{ error }}
+    <button type="button" (click)="loadTickets()">Retry</button>
   </div>
 
-  <!-- Tickets table -->
-  <table *ngIf="!loading && !error">
+  <ng-container *ngIf="!loading && !error">
+    <div class="ticket-table-wrap"
+         role="region"
+         aria-label="All tickets table"
+         tabindex="0">
+      <table class="ticket-table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Organization</th>
+            <th scope="col">Requester</th>
+            <th scope="col">Status</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ticket of filteredTickets; trackBy: trackByTicket">
+            <td>
+            <a class="ticket-id" [routerLink]="['/super-admin/tickets', ticket.id]">
+             {{ ticket.ticket_id }}
+             </a>
+             </td>
+             <td>
+              <span class="ticket-title" [title]="ticket.ticket_name">
+                {{ ticket.ticket_name }}
+              </span>
+            </td>
+            <td>
+              <span *ngIf="ticket.organization_name; else noOrganization"
+                    class="organization-badge">
+                {{ ticket.organization_name }}
+              </span>
+              <ng-template #noOrganization>—</ng-template>
+            </td>
+            <td>{{ ticket.requester || '—' }}</td>
+            <td>
+              <span class="status-badge" [attr.data-status]="statusKey(ticket.status)">
+                {{ statusLabel(ticket.status) }}
+              </span>
+            </td>
+            <td>
+              <span class="ticket-priority"
+                    [attr.data-priority]="priorityKey(ticket.priority)">
+                {{ priorityLabel(ticket.priority) }}
+              </span>
+            </td>
+            <td class="ticket-date">
+              {{ (ticket.created_at | date:'MMM d') || '—' }}
+            </td>
+          </tr>
 
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Ticket</th>
-        <th>Description</th>
-        <th>Category</th>
-        <th>Priority</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-
-    <tbody>
-
-      <tr *ngFor="let ticket of tickets">
-
-        <td>
-          {{ ticket.ticket_id }}
-        </td>
-
-        <td>
-          {{ ticket.ticket_name }}
-        </td>
-
-        <td>
-          {{ ticket.description }}
-        </td>
-
-        <td>
-          {{ ticket.category }}
-        </td>
-
-        <td>
-          {{ ticket.priority }}
-        </td>
-
-        <td>
-          {{ ticket.status }}
-        </td>
-
-      </tr>
-
-      <!-- No tickets -->
-      <tr *ngIf="tickets.length === 0">
-        <td colspan="6">
-          No tickets found.
-        </td>
-      </tr>
-
-    </tbody>
-
-  </table>
-
+          <tr *ngIf="filteredTickets.length === 0">
+            <td colspan="7" class="ticket-empty">
+              {{ tickets.length ? 'No tickets match your filters.' : 'No tickets found.' }}
+              <button *ngIf="tickets.length" type="button" (click)="clearFilters()">
+                Clear filters
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
 </div>
