@@ -1,306 +1,149 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { forkJoin } from 'rxjs';
 
 import {
   OrganizationRequest,
-  OrganizationRequestService
+  OrganizationRequestService,
+  RequestStatus
 } from '../../services/organization-request';
+
+import {
+  OrganizationService
+} from '../../services/organization';
+
+type RequestFilter = 'ALL' | RequestStatus;
 
 @Component({
   selector: 'app-org-requests',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule
-  ],
+  imports: [CommonModule],
   templateUrl: './org-requests.html',
   styleUrl: './org-requests.css'
 })
 export class OrgRequests implements OnInit {
 
-  /* =========================
-     REQUEST DATA
-  ========================= */
-
   requests: OrganizationRequest[] = [];
 
-  selectedFilter:
-    'All' |
-    'Pending' |
-    'Approved' |
-    'Rejected' = 'Pending';
+  organizationNames: Record<number, string> = {};
 
-
-  /* =========================
-     PAGE STATE
-  ========================= */
+  selectedFilter: RequestFilter = 'PENDING';
 
   loading = false;
   error = '';
 
-
-  /* =========================
-     APPROVE MODAL
-  ========================= */
-
-  showApproveModal = false;
-  approvalNotes = '';
-
-
-  /* =========================
-     REJECT MODAL
-  ========================= */
-
-  showRejectModal = false;
-  rejectionNotes = '';
-
-
-  /* =========================
-     SELECTED REQUEST
-  ========================= */
-
-  selectedRequest: OrganizationRequest | null = null;
-
-
   constructor(
-    private organizationRequestService: OrganizationRequestService
+    private organizationRequestService: OrganizationRequestService,
+    private organizationService: OrganizationService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
-
-
-  /* =========================
-     INITIAL LOAD
-  ========================= */
 
   ngOnInit(): void {
     this.loadRequests();
   }
 
-
-  /* =========================
-     LOAD REQUESTS
-  ========================= */
+  // Load requests and organization names
 
   loadRequests(): void {
 
     this.loading = true;
     this.error = '';
 
-    this.organizationRequestService.getRequests().subscribe({
+    forkJoin({
 
-      next: (data) => {
+      requests:
+        this.organizationRequestService.getRequests(),
 
-        this.requests = data;
+      organizations:
+        this.organizationService.getOrganizations()
+
+    }).subscribe({
+
+      next: ({ requests, organizations }) => {
+
+        this.requests = requests;
+
+        this.organizationNames = {};
+
+        organizations.forEach(organization => {
+
+          this.organizationNames[organization.id] =
+            organization.name;
+
+        });
 
         this.loading = false;
+
+        this.changeDetectorRef.detectChanges();
 
       },
 
       error: (err) => {
 
-        console.error(
-          'Organization request API error:',
-          err
-        );
+        console.error('Organization requests API error:', err);
 
-        this.error =
-          'Unable to load organization requests.';
+        this.error = 'Unable to load organization requests.';
 
         this.loading = false;
+
+        this.changeDetectorRef.detectChanges();
 
       }
 
     });
+
   }
 
-
-  /* =========================
-     FILTER REQUESTS
-  ========================= */
+  // Filter requests
 
   get filteredRequests(): OrganizationRequest[] {
 
-    if (this.selectedFilter === 'All') {
+    if (this.selectedFilter === 'ALL') {
       return this.requests;
     }
 
     return this.requests.filter(
-      request =>
-        request.status === this.selectedFilter
+      request => request.status === this.selectedFilter
     );
+
   }
 
+  // Change selected tab
 
-  /* =========================
-     CHANGE FILTER
-  ========================= */
-
-  setFilter(
-    filter:
-      'All' |
-      'Pending' |
-      'Approved' |
-      'Rejected'
-  ): void {
+  setFilter(filter: RequestFilter): void {
 
     this.selectedFilter = filter;
 
   }
 
+  // Calculate status counts
 
-  /* =========================
-     REQUEST COUNTS
-  ========================= */
+  getCount(status: RequestFilter): number {
 
-  getCount(
-    status:
-      'All' |
-      'Pending' |
-      'Approved' |
-      'Rejected'
-  ): number {
-
-    if (status === 'All') {
+    if (status === 'ALL') {
       return this.requests.length;
     }
 
     return this.requests.filter(
-      request =>
-        request.status === status
+      request => request.status === status
     ).length;
-  }
-
-
-  /* =========================
-     OPEN APPROVE MODAL
-  ========================= */
-
-  approveRequest(
-    request: OrganizationRequest
-  ): void {
-
-    this.selectedRequest = request;
-
-    this.approvalNotes = '';
-
-    this.showApproveModal = true;
 
   }
 
+  // Previous organization name
 
-  /* =========================
-     CANCEL APPROVAL
-  ========================= */
+  getOrganizationName(id: number | null): string {
 
-  cancelApproval(): void {
-
-    this.showApproveModal = false;
-
-    this.selectedRequest = null;
-
-    this.approvalNotes = '';
-
-  }
-
-
-  /* =========================
-     CONFIRM APPROVAL
-  ========================= */
-
-  confirmApproval(): void {
-
-    if (!this.selectedRequest) {
-      return;
+    if (id === null) {
+      return 'None';
     }
 
-    /*
-      Backend API will be connected here later.
-
-      For now we update the frontend state only.
-    */
-
-    this.selectedRequest.status = 'Approved';
-
-    console.log(
-      'Approval confirmed:',
-      {
-        request: this.selectedRequest,
-        notes: this.approvalNotes
-      }
-    );
-
-    this.showApproveModal = false;
-
-    this.selectedRequest = null;
-
-    this.approvalNotes = '';
-
-  }
-
-
-  /* =========================
-     OPEN REJECT MODAL
-  ========================= */
-
-  rejectRequest(
-    request: OrganizationRequest
-  ): void {
-
-    this.selectedRequest = request;
-
-    this.rejectionNotes = '';
-
-    this.showRejectModal = true;
-
-  }
-
-
-  /* =========================
-     CANCEL REJECTION
-  ========================= */
-
-  cancelRejection(): void {
-
-    this.showRejectModal = false;
-
-    this.selectedRequest = null;
-
-    this.rejectionNotes = '';
-
-  }
-
-
-  /* =========================
-     CONFIRM REJECTION
-  ========================= */
-
-  confirmRejection(): void {
-
-    if (!this.selectedRequest) {
-      return;
-    }
-
-    /*
-      Backend API will be connected here later.
-
-      For now we update the frontend state only.
-    */
-
-    this.selectedRequest.status = 'Rejected';
-
-    console.log(
-      'Rejection confirmed:',
-      {
-        request: this.selectedRequest,
-        notes: this.rejectionNotes
-      }
-    );
-
-    this.showRejectModal = false;
-
-    this.selectedRequest = null;
-
-    this.rejectionNotes = '';
+    return this.organizationNames[id] || `Organization #${id}`;
 
   }
 

@@ -1,0 +1,709 @@
+<div class="details-page">
+
+  <a
+    class="back-link"
+    routerLink="/super-admin/organizations"
+  >
+    ← Back to Organizations
+  </a>
+
+  <ng-container *ngIf="page$ | async as page">
+
+    <div *ngIf="page.loading" class="message">
+      Loading organization details...
+    </div>
+
+    <div *ngIf="page.error" class="error">
+      {{ page.error }}
+    </div>
+
+    <ng-container *ngIf="page.organization as org">
+
+      <!-- Organization Header -->
+
+      <div class="organization-header">
+
+        <div class="avatar">
+          {{ org.name.charAt(0).toUpperCase() }}
+        </div>
+
+        <div class="organization-title">
+
+          <h1>{{ org.name }}</h1>
+
+          <p>{{ org.slug }}</p>
+
+          <span
+            class="badge"
+            [class.inactive]="!org.is_active"
+          >
+            {{ org.is_active ? 'Active' : 'Inactive' }}
+          </span>
+
+        </div>
+
+        <div class="organization-meta">
+
+          <p>
+            Created:
+            {{ org.created_at | date:'dd MMM yyyy' }}
+          </p>
+
+          <p>
+            AI Status:
+            <strong>
+              {{ org.ai_enabled ? 'Enabled' : 'Disabled' }}
+            </strong>
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- Summary Cards -->
+
+      <div class="stats-grid">
+
+        <button
+          class="stat-card"
+          (click)="activeTab = 'users'"
+        >
+          <span>Total Users</span>
+          <strong>{{ page.totalUsers }}</strong>
+        </button>
+
+        <button
+          class="stat-card"
+          (click)="activeTab = 'users'"
+        >
+          <span>Active Users</span>
+          <strong class="green">
+            {{ page.activeUsers }}
+          </strong>
+        </button>
+
+        <button
+          class="stat-card"
+          (click)="openTickets()"
+        >
+          <span>Total Tickets</span>
+          <strong>{{ page.totalTickets }}</strong>
+        </button>
+
+        <button
+          class="stat-card"
+          (click)="openTickets('assigned')"
+        >
+          <span>Assigned Tickets</span>
+          <strong class="teal">
+            {{ page.assignedTickets }}
+          </strong>
+        </button>
+
+        <button
+          class="stat-card"
+          (click)="openTickets('unassigned')"
+        >
+          <span>Unassigned Tickets</span>
+          <strong class="orange">
+            {{ page.unassignedTickets }}
+          </strong>
+        </button>
+
+        <button
+          class="stat-card"
+          (click)="openTickets('', 'Open')"
+        >
+          <span>Open Tickets</span>
+          <strong class="blue">
+            {{ page.openTickets }}
+          </strong>
+        </button>
+
+      </div>
+
+
+      <!-- Navigation Tabs -->
+
+      <div class="tabs">
+
+        <button
+          [class.selected]="activeTab === 'overview'"
+          (click)="activeTab = 'overview'"
+        >
+          Overview
+        </button>
+
+        <button
+          [class.selected]="activeTab === 'users'"
+          (click)="activeTab = 'users'"
+        >
+          Users ({{ page.totalUsers }})
+        </button>
+
+        <button
+          [class.selected]="activeTab === 'tickets'"
+          (click)="openTickets()"
+        >
+          Tickets ({{ page.totalTickets }})
+        </button>
+
+        <button
+          [class.selected]="activeTab === 'workload'"
+          (click)="activeTab = 'workload'"
+        >
+          Team Workload
+        </button>
+
+      </div>
+
+
+      <!-- OVERVIEW TAB -->
+
+      <div
+        class="overview-grid"
+        *ngIf="activeTab === 'overview'"
+      >
+
+        <div class="section-card">
+
+          <h2>Ticket Status Overview</h2>
+
+          <div
+            class="status-row"
+            *ngFor="let item of page.ticketStatuses | keyvalue"
+          >
+
+            <span>{{ item.key }}</span>
+
+            <strong>{{ item.value }}</strong>
+
+          </div>
+
+          <p
+            class="empty-message"
+            *ngIf="!page.totalTickets"
+          >
+            No tickets found.
+          </p>
+
+        </div>
+
+        <div class="section-card">
+
+          <h2>Organization Information</h2>
+
+          <div class="status-row">
+            <span>Organization ID</span>
+            <strong>{{ org.id }}</strong>
+          </div>
+
+          <div class="status-row">
+            <span>Organization Name</span>
+            <strong>{{ org.name }}</strong>
+          </div>
+
+          <div class="status-row">
+            <span>Slug</span>
+            <strong>{{ org.slug }}</strong>
+          </div>
+
+          <div class="status-row">
+            <span>Team Members</span>
+            <strong>
+              {{ getTeamMembers(page.users).length }}
+            </strong>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- USERS TAB -->
+
+      <div
+        class="section-card"
+        *ngIf="activeTab === 'users'"
+      >
+
+        <div class="section-header">
+
+          <h2>Organization Users</h2>
+
+          <input
+            class="search-input"
+            type="text"
+            placeholder="Search users..."
+            [(ngModel)]="userSearch"
+          />
+
+        </div>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Raised</th>
+                <th>Assigned</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let user of filterUsers(page.users)">
+
+                <td>
+
+                  <div class="user-info">
+
+                    <div class="user-avatar">
+                      {{ user.username.charAt(0).toUpperCase() }}
+                    </div>
+
+                    <div>
+
+                      <button
+                        class="text-link"
+                        (click)="viewUser(user)"
+                      >
+                        {{ user.username }}
+                      </button>
+
+                      <small>
+                        {{ user.first_name }} {{ user.last_name }}
+                      </small>
+
+                    </div>
+
+                  </div>
+
+                </td>
+
+                <td>{{ user.email || '—' }}</td>
+
+                <td>
+                  <span class="role-badge">
+                    {{ user.role || '—' }}
+                  </span>
+                </td>
+
+                <td>
+                  <span
+                    class="badge"
+                    [class.inactive]="!user.is_active"
+                  >
+                    {{ user.is_active ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+
+                <td>{{ user.raisedTickets.length }}</td>
+
+                <td>{{ user.assignedTickets.length }}</td>
+
+                <td>
+                  <button
+                    class="view-btn"
+                    (click)="viewUser(user)"
+                  >
+                    View Details
+                  </button>
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <p
+          class="empty-message"
+          *ngIf="!filterUsers(page.users).length"
+        >
+          No users found.
+        </p>
+
+      </div>
+
+
+      <!-- TICKETS TAB -->
+
+      <div
+        class="section-card"
+        *ngIf="activeTab === 'tickets'"
+      >
+
+        <h2>Organization Tickets</h2>
+
+        <div class="filters">
+
+          <input
+            class="search-input"
+            type="text"
+            placeholder="Search tickets..."
+            [(ngModel)]="ticketSearch"
+          />
+
+          <select [(ngModel)]="statusFilter">
+
+            <option value="">All Statuses</option>
+
+            <option
+              *ngFor="let item of page.ticketStatuses | keyvalue"
+              [value]="item.key"
+            >
+              {{ item.key }}
+            </option>
+
+          </select>
+
+          <select [(ngModel)]="priorityFilter">
+            <option value="">All Priorities</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+            <option value="Critical">Critical</option>
+          </select>
+
+          <select [(ngModel)]="assignmentFilter">
+            <option value="">All Assignments</option>
+            <option value="assigned">Assigned</option>
+            <option value="unassigned">Unassigned</option>
+          </select>
+
+        </div>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Ticket ID</th>
+                <th>Ticket Name</th>
+                <th>Raised By</th>
+                <th>Assigned To</th>
+                <th>Team</th>
+                <th>Priority</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr
+                *ngFor="
+                  let ticket of
+                  filterTickets(page.tickets, page.usernames)
+                "
+              >
+
+                <td>
+
+                  <a
+                    class="ticket-link"
+                    [routerLink]="[
+                      '/super-admin/tickets',
+                      ticket.id
+                    ]"
+                  >
+                    {{ ticket.ticket_id }}
+                  </a>
+
+                </td>
+
+                <td>{{ ticket.ticket_name }}</td>
+
+                <td>
+                  {{ getUsername(ticket.created_by_id, page.usernames) }}
+                </td>
+
+                <td>
+                  {{ ticket.assigned_to === null
+                    ? 'Unassigned'
+                    : getUsername(ticket.assigned_to, page.usernames)
+                  }}
+                </td>
+
+                <td>{{ ticket.team || '—' }}</td>
+
+                <td>
+                  <span
+                    class="priority-badge"
+                    [ngClass]="ticket.priority.toLowerCase()"
+                  >
+                    {{ ticket.priority }}
+                  </span>
+                </td>
+
+                <td>
+                  <span class="ticket-status">
+                    {{ ticket.status }}
+                  </span>
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <p
+          class="empty-message"
+          *ngIf="!filterTickets(page.tickets, page.usernames).length"
+        >
+          No tickets found.
+        </p>
+
+      </div>
+
+
+      <!-- TEAM WORKLOAD TAB -->
+
+      <div
+        class="section-card"
+        *ngIf="activeTab === 'workload'"
+      >
+
+        <h2>Team Member Workload</h2>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Team Member</th>
+                <th>Assigned Tickets</th>
+                <th>Pending</th>
+                <th>Resolved / Closed</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let user of getTeamMembers(page.users)">
+
+                <td>{{ user.username }}</td>
+
+                <td>{{ user.assignedTickets.length }}</td>
+
+                <td class="orange">
+                  {{ user.pendingCount }}
+                </td>
+
+                <td class="green">
+                  {{ user.resolvedCount }}
+                </td>
+
+                <td>
+                  <button
+                    class="view-btn"
+                    (click)="viewUser(user)"
+                  >
+                    View Tickets
+                  </button>
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <p
+          class="empty-message"
+          *ngIf="!getTeamMembers(page.users).length"
+        >
+          No team members found.
+        </p>
+
+      </div>
+
+
+      <!-- USER DETAILS POPUP -->
+
+      <div
+        class="modal-overlay"
+        *ngIf="selectedUser as user"
+        (click)="closeUser()"
+      >
+
+        <div
+          class="user-modal"
+          (click)="$event.stopPropagation()"
+        >
+
+          <div class="modal-header">
+
+            <h2>User Details</h2>
+
+            <button
+              class="close-btn"
+              (click)="closeUser()"
+            >
+              ×
+            </button>
+
+          </div>
+
+          <div class="modal-body">
+
+            <div class="user-info">
+
+              <div class="user-avatar large-avatar">
+                {{ user.username.charAt(0).toUpperCase() }}
+              </div>
+
+              <div>
+                <h3>{{ user.username }}</h3>
+                <p>{{ user.email || 'No email' }}</p>
+              </div>
+
+            </div>
+
+            <div class="user-details-grid">
+
+              <div class="detail-item">
+                <span>Full Name</span>
+                <strong>
+                  {{ (user.first_name + ' ' + user.last_name).trim() || '—' }}
+                </strong>
+              </div>
+
+              <div class="detail-item">
+                <span>Role</span>
+                <strong>{{ user.role || '—' }}</strong>
+              </div>
+
+              <div class="detail-item">
+                <span>Account Status</span>
+                <strong>
+                  {{ user.is_active ? 'Active' : 'Inactive' }}
+                </strong>
+              </div>
+
+              <div class="detail-item">
+                <span>AI Status</span>
+                <strong>
+                  {{ user.is_ai_enabled ? 'Enabled' : 'Disabled' }}
+                </strong>
+              </div>
+
+              <div class="detail-item">
+                <span>Created Date</span>
+                <strong>
+                  {{ user.created_at | date:'dd MMM yyyy' }}
+                </strong>
+              </div>
+
+              <div class="detail-item">
+                <span>Assigned / Raised</span>
+                <strong>
+                  {{ user.assignedTickets.length }} /
+                  {{ user.raisedTickets.length }}
+                </strong>
+              </div>
+
+            </div>
+
+
+            <!-- Assigned Tickets -->
+
+            <h3>
+              Assigned Tickets ({{ user.assignedTickets.length }})
+            </h3>
+
+            <div
+              class="ticket-item"
+              *ngFor="let ticket of user.assignedTickets"
+            >
+
+              <a
+                class="ticket-link"
+                [routerLink]="[
+                  '/super-admin/tickets',
+                  ticket.id
+                ]"
+              >
+                {{ ticket.ticket_id }}
+              </a>
+
+              <div>{{ ticket.ticket_name }}</div>
+
+              <small>
+                {{ ticket.status }} · {{ ticket.priority }}
+              </small>
+
+            </div>
+
+            <p
+              class="empty-message"
+              *ngIf="!user.assignedTickets.length"
+            >
+              No assigned tickets.
+            </p>
+
+
+            <!-- Raised Tickets -->
+
+            <h3>
+              Raised Tickets ({{ user.raisedTickets.length }})
+            </h3>
+
+            <div
+              class="ticket-item"
+              *ngFor="let ticket of user.raisedTickets"
+            >
+
+              <a
+                class="ticket-link"
+                [routerLink]="[
+                  '/super-admin/tickets',
+                  ticket.id
+                ]"
+              >
+                {{ ticket.ticket_id }}
+              </a>
+
+              <div>{{ ticket.ticket_name }}</div>
+
+              <small>
+                {{ ticket.status }} · {{ ticket.priority }}
+              </small>
+
+            </div>
+
+            <p
+              class="empty-message"
+              *ngIf="!user.raisedTickets.length"
+            >
+              No raised tickets.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </ng-container>
+
+  </ng-container>
+
+</div>

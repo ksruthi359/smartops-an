@@ -1,23 +1,18 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectorRef
-} from '@angular/core';
-
+import {Component,OnInit,ChangeDetectorRef} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import {
-  Organization,
-  OrganizationService
-} from '../../services/organization';
+import {Organization,OrganizationService} from '../../services/organization';
+import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-all-organizations',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './all-organizations.html',
   styleUrl: './all-organizations.css'

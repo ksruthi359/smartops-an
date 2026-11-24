@@ -1,18 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import {
+  HttpClient,
+  HttpHeaders
+} from '@angular/common/http';
+
+import { Observable, map } from 'rxjs';
+
+export type RequestStatus =
+  'PENDING' |
+  'APPROVED' |
+  'REJECTED';
 
 export interface OrganizationRequest {
   id: number;
-  organizationName: string;
-  adminName: string;
-  email: string;
-  phone: string;
-  industry: string;
-  companySize: string;
-  useCase: string;
-  message: string;
-  submittedDate: string;
-  status: 'Pending' | 'Approved' | 'Rejected';
+  organization_name: string;
+  explanation: string;
+  status: RequestStatus;
+  previous_organization: number | null;
+  created_at: string;
+}
+
+export interface OrganizationRequestResponse {
+  Message: string;
+  'Total Requests': number;
+  Data: OrganizationRequest[];
 }
 
 @Injectable({
@@ -20,19 +31,28 @@ export interface OrganizationRequest {
 })
 export class OrganizationRequestService {
 
-  constructor() {}
+  private apiUrl =
+    'http://127.0.0.1:8000/api/v1/superuser/organization-requests/';
+
+  constructor(private http: HttpClient) {}
 
   getRequests(): Observable<OrganizationRequest[]> {
-    /*
-      Backend developer will connect the real API here later.
 
-      Example:
+    const token = localStorage.getItem('access_token');
 
-      return this.http.get<OrganizationRequest[]>(
-        'http://127.0.0.1:8000/api/v1/organization-requests/'
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http
+      .get<OrganizationRequestResponse>(
+        this.apiUrl,
+        { headers }
+      )
+      .pipe(
+        map(response => response.Data)
       );
-    */
 
-    return of([]);
   }
+
 }

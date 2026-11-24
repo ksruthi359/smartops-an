@@ -20,7 +20,9 @@
     <!-- Notification -->
     <div class="notification">
       🔔
-      <span class="notification-count">3</span>
+      @if (notificationService.unreadCount$ | async; as unreadCount) {
+  <span class="notification-count">{{ unreadCount }}</span>
+}
     </div>
 
 
