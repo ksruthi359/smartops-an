@@ -183,3 +183,60 @@
 .logout-icon {
   transform: scale(0.8);
 }
+.profile-menu {
+  position: relative;
+}
+
+.profile-menu > summary {
+  display: grid;
+  place-items: center;
+  list-style: none;
+  cursor: pointer;
+}
+
+.profile-menu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.profile-menu > summary:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 3px;
+}
+
+.profile-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 1000;
+  min-width: 200px;
+  padding: 14px 16px;
+  background: #fff;
+  color: #172033;
+  border: 1px solid #dfe4eb;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgb(15 23 42 / 12%);
+}
+
+.profile-panel h2 {
+  margin: 0 0 12px;
+  font-size: 15px;
+}
+
+.profile-panel dl {
+  margin: 0;
+}
+
+.profile-panel dt {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.profile-panel dd {
+  margin: 2px 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.profile-panel dd:last-child {
+  margin-bottom: 0;
+}

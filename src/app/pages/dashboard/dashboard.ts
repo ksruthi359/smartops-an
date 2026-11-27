@@ -1,11 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders
-} from '@angular/common/http';
+import {HttpClient,HttpErrorResponse,HttpHeaders} from '@angular/common/http';
 import { RouterLink } from '@angular/router';
+import {OrganizationRequestService,type OrganizationRequest} from '../../services/organization-request';
 
 interface DashboardStats {
   total_organizations: number;
@@ -53,6 +50,9 @@ export class Dashboard implements OnInit {
   recentTickets: RecentTicket[] = [];
   recentTicketsLoading = true;
   recentTicketsError = '';
+  pendingRequests: OrganizationRequest[] = [];
+  pendingRequestsLoading = true;
+  pendingRequestsError = '';
 
   private readonly statsApiUrl =
     'http://127.0.0.1:8000/api/v1/super_admin_dashboard/stats/';
@@ -65,7 +65,8 @@ export class Dashboard implements OnInit {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly organizationRequestService: OrganizationRequestService
   ) {}
 
   ngOnInit(): void {
@@ -76,7 +77,8 @@ export class Dashboard implements OnInit {
     this.loadDashboardStats();
     this.loadOrganizations();
     this.loadRecentTickets();
-  }
+    this.loadPendingRequests();
+ }
 
   loadDashboardStats(): void {
     this.loadingStats = true;
@@ -181,7 +183,29 @@ export class Dashboard implements OnInit {
       }
     });
   }
+loadPendingRequests(): void {
+  this.pendingRequestsLoading = true;
+  this.pendingRequestsError = '';
 
+  this.organizationRequestService.getRequests().subscribe({
+    next: requests => {
+      this.pendingRequests = requests.filter(
+        request => request.status === 'PENDING'
+      );
+      this.pendingRequestsLoading = false;
+      this.cdr.detectChanges();
+    },
+    error: (error: HttpErrorResponse) => {
+      this.pendingRequests = [];
+      this.pendingRequestsLoading = false;
+      this.pendingRequestsError = this.getErrorMessage(
+        error,
+        'pending organization requests'
+      );
+      this.cdr.detectChanges();
+    }
+  });
+}
   private getHeaders(): HttpHeaders | null {
     const token = localStorage.getItem('access_token');
 

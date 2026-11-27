@@ -10,6 +10,7 @@
     {{ statsError }}
   </div>
 
+  <!-- Dashboard statistics -->
   <section class="stats-grid" aria-label="Dashboard statistics">
     <article class="stat-card">
       <div class="stat-icon organizations-icon" aria-hidden="true">
@@ -83,6 +84,7 @@
     </article>
   </section>
 
+  <!-- Pending organization requests -->
   <section class="pending-requests">
     <div class="pending-heading">
       <div class="pending-title-row">
@@ -92,9 +94,30 @@
       <p>New organizations waiting for approval.</p>
     </div>
 
-    <div class="request-empty">
-      Organization request details will appear here when the requests list API is connected.
+    <p *ngIf="pendingRequestsLoading" class="request-empty" role="status">
+      Loading pending requests…
+    </p>
+
+    <div *ngIf="pendingRequestsError" class="error-message" role="alert">
+      {{ pendingRequestsError }}
+      <button type="button" (click)="loadPendingRequests()">Retry</button>
     </div>
+
+    <ng-container *ngIf="!pendingRequestsLoading && !pendingRequestsError">
+      <p *ngIf="pendingRequests.length === 0" class="request-empty">
+        No pending organization requests.
+      </p>
+
+      <ul *ngIf="pendingRequests.length > 0" class="pending-request-list">
+        <li *ngFor="let request of pendingRequests">
+          <strong>{{ request.organization_name }}</strong>
+          <span *ngIf="request.requested_by_username as username">
+            · Requested by {{ username }}
+          </span>
+          <span> · {{ request.created_at | date:'dd MMM yyyy' }}</span>
+        </li>
+      </ul>
+    </ng-container>
 
     <a class="view-requests-button" routerLink="/super-admin/requests">
       View Organization Requests
@@ -103,6 +126,7 @@
   </section>
 
   <div class="dashboard-cards">
+    <!-- Organizations -->
     <section class="organizations-card">
       <h2>Organizations</h2>
 
@@ -140,6 +164,7 @@
       </a>
     </section>
 
+    <!-- Recent tickets -->
     <section class="recent-tickets-card">
       <h2>Recent Tickets (All Orgs)</h2>
 

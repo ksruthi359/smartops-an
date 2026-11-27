@@ -1,63 +1,54 @@
 <div class="navbar">
-
-  <!-- Left side -->
   <div class="navbar-left">
-
-    <button class="menu-button">
+    <button class="menu-button" type="button" aria-label="Open menu">
       ☰
     </button>
 
-    <span class="page-title">
-      SmartOps Hub
-    </span>
-
+    <span class="page-title">SmartOps Hub</span>
   </div>
 
-
-  <!-- Right side -->
   <div class="navbar-right">
-
-    <!-- Notification -->
     <div class="notification">
       🔔
       @if (notificationService.unreadCount$ | async; as unreadCount) {
-  <span class="notification-count">{{ unreadCount }}</span>
-}
+        <span class="notification-count">{{ unreadCount }}</span>
+      }
     </div>
 
+    <details class="profile-menu">
+      <summary class="avatar" aria-label="Toggle profile">
+        S
+      </summary>
 
-    <!-- User avatar -->
-    <div class="avatar">
-      S
-    </div>
+      <div class="profile-panel">
+        <h2>Profile</h2>
 
+        <dl>
+          <dt>Username</dt>
+          <dd>super_admin</dd>
 
-    <!-- Username -->
+          <dt>Role</dt>
+          <dd>Super Admin</dd>
+        </dl>
+      </div>
+    </details>
+
     <div class="user-info">
-      <span class="username">
-        super_admin
-      </span>
-
-      <span class="role">
-        Super_admin
-      </span>
+      <span class="username">super_admin</span>
     </div>
 
+    <button
+      type="button"
+      class="logout"
+      aria-label="Log out"
+      (click)="logout()"
+      [disabled]="loggingOut"
+    >
+      <span class="logout-icon" aria-hidden="true"></span>
+    </button>
 
-    <!-- Logout -->
-<button
-  type="button"
-  class="logout"
-  aria-label="Log out"
-  (click)="logout()"
-  [disabled]="loggingOut">
-  <span class="logout-icon" aria-hidden="true"></span>
-</button>
-
-@if (logoutError) {
-  <p role="alert">{{ logoutError }}</p>
-}
-
+    @if (logoutError) {
+      <p role="alert">{{ logoutError }}</p>
+    }
   </div>
-
 </div>

@@ -1,226 +1,219 @@
 <div class="requests-page">
-
-  <!-- PAGE HEADER -->
-
-  <div class="page-header">
-
+  <header class="page-header">
     <div class="title-section">
-
-      <div class="page-icon">▤</div>
-
+      <span class="page-icon" aria-hidden="true">▤</span>
       <div>
-
         <h1>Organization Requests</h1>
-
-        <p>
-          Review incoming organization access requests
-        </p>
-
+        <p>Review incoming organization access requests</p>
       </div>
-
     </div>
+  </header>
 
+  <div class="filter-tabs" role="group" aria-label="Filter requests by status">
+    <button
+      *ngFor="let filter of filters"
+      type="button"
+      [class.active]="selectedFilter === filter.value"
+      [attr.aria-pressed]="selectedFilter === filter.value"
+      (click)="setFilter(filter.value)"
+    >
+      {{ filter.label }} ({{ getCount(filter.value) }})
+    </button>
   </div>
 
+  <p class="review-notice" role="status" *ngIf="reviewNotice">
+    {{ reviewNotice }}
+  </p>
 
-  <!-- FILTER TABS -->
+  <p class="state-message" role="status" *ngIf="loading">
+    Loading organization requests…
+  </p>
 
-  <div class="filter-tabs">
-
-    <button
-      [class.active]="selectedFilter === 'ALL'"
-      (click)="setFilter('ALL')"
-    >
-      All ({{ getCount('ALL') }})
-    </button>
-
-    <button
-      [class.active]="selectedFilter === 'PENDING'"
-      (click)="setFilter('PENDING')"
-    >
-      Pending ({{ getCount('PENDING') }})
-    </button>
-
-    <button
-      [class.active]="selectedFilter === 'APPROVED'"
-      (click)="setFilter('APPROVED')"
-    >
-      Approved ({{ getCount('APPROVED') }})
-    </button>
-
-    <button
-      [class.active]="selectedFilter === 'REJECTED'"
-      (click)="setFilter('REJECTED')"
-    >
-      Rejected ({{ getCount('REJECTED') }})
-    </button>
-
-  </div>
-
-
-  <!-- LOADING -->
-
-  <div class="state-message" *ngIf="loading">
-
-    Loading organization requests...
-
-  </div>
-
-
-  <!-- ERROR -->
-
-  <div
-    class="state-message error"
-    *ngIf="!loading && error"
-  >
-
+  <div class="state-message error" role="alert" *ngIf="!loading && error">
     {{ error }}
-
-    <button type="button" (click)="loadRequests()">
-      Retry
-    </button>
-
+    <button type="button" (click)="loadRequests()">Retry</button>
   </div>
-
-
-  <!-- REQUEST CARDS -->
 
   <ng-container *ngIf="!loading && !error">
-
-    <div
-      class="request-card"
-      *ngFor="let request of filteredRequests"
-    >
-
-      <!-- HEADER -->
-
-      <div class="request-header">
-
+    <article class="request-card" *ngFor="let request of filteredRequests">
+      <header class="request-header">
         <div class="organization">
-
-          <div class="organization-logo">
+          <div class="organization-logo" aria-hidden="true">
             {{ request.organization_name.charAt(0).toUpperCase() }}
           </div>
 
           <div>
-
             <h2>{{ request.organization_name }}</h2>
-
             <span>
-              Request #{{ request.id }}
+              {{ request.requested_by_username || ('Request #' + request.id) }}
             </span>
-
           </div>
-
         </div>
 
-
-        <!-- STATUS -->
-
-        <div
+        <span
           class="status"
           [class.pending]="request.status === 'PENDING'"
           [class.approved]="request.status === 'APPROVED'"
           [class.rejected]="request.status === 'REJECTED'"
         >
-
           {{ request.status | titlecase }}
+        </span>
+      </header>
 
-        </div>
-
-      </div>
-
-
-      <!-- ORGANIZATION INFORMATION -->
-
-      <div class="details-grid">
-
-        <div>
-
-          <strong>Previous Organization:</strong>
-
-          {{ getOrganizationName(request.previous_organization) }}
-
+      <dl class="details-grid">
+        <div *ngIf="request.requested_by_email as email">
+          <dt>Email</dt>
+          <dd>{{ email }}</dd>
         </div>
 
         <div>
-
-          <strong>Request ID:</strong>
-
-          #{{ request.id }}
-
+          <dt>Previous organization</dt>
+          <dd>
+            {{ request.previous_organization_name
+              || getOrganizationName(request.previous_organization) }}
+          </dd>
         </div>
-
-      </div>
-
-
-      <!-- EXPLANATION -->
+      </dl>
 
       <div class="request-content">
-
-        <p>
-
-          <strong>Explanation:</strong>
-
-          {{ request.explanation }}
-
-        </p>
-
+        <h3>Explanation</h3>
+        <p>{{ request.explanation }}</p>
       </div>
 
-
-      <!-- FOOTER -->
-
-      <div class="request-footer">
-
-        <span>
-
-          Submitted
-          {{ request.created_at | date:'dd MMM yyyy, h:mm a' }}
-
-        </span>
-
-        <div
-          class="actions"
-          *ngIf="request.status === 'PENDING'"
-        >
-
-          <button
-            class="approve"
-            type="button"
-            disabled
-            title="Approval API is pending"
-          >
-            ✓ Approve
-          </button>
-
-          <button
-            class="reject"
-            type="button"
-            disabled
-            title="Rejection API is pending"
-          >
-            ✕ Reject
-          </button>
-
+      <dl class="review-details" *ngIf="request.status !== 'PENDING'">
+        <div *ngIf="request.status === 'REJECTED' && request.rejection_reason">
+          <dt>Rejection reason</dt>
+          <dd class="rejection-text">{{ request.rejection_reason }}</dd>
         </div>
 
-      </div>
+        <div *ngIf="request.reviewed_by_username || request.reviewed_by">
+          <dt>Reviewed by</dt>
+          <dd>
+            {{ request.reviewed_by_username || ('User #' + request.reviewed_by) }}
+          </dd>
+        </div>
 
-    </div>
+        <div *ngIf="request.reviewed_at as reviewedAt">
+          <dt>Reviewed on</dt>
+          <dd>{{ reviewedAt | date:'dd MMM yyyy, h:mm a' }}</dd>
+        </div>
+      </dl>
 
+      <footer class="request-footer">
+        <span>
+          Submitted {{ request.created_at | date:'dd MMM yyyy, h:mm a' }}
+        </span>
 
-    <!-- EMPTY STATE -->
+        <div class="actions" *ngIf="request.status === 'PENDING'">
+          <button
+            type="button"
+            class="approve"
+            [disabled]="reviewSaving"
+            (click)="openReview(request, 'APPROVED')"
+          >
+            Approve
+          </button>
 
-    <div
-      class="empty"
-      *ngIf="filteredRequests.length === 0"
-    >
+          <button
+            type="button"
+            class="reject"
+            [disabled]="reviewSaving"
+            (click)="openReview(request, 'REJECTED')"
+          >
+            Reject
+          </button>
+        </div>
 
+        <ng-container *ngIf="request.status === 'APPROVED'">
+          <a
+            *ngIf="request.approved_organization as organizationId"
+            [routerLink]="['/super-admin/organizations', organizationId]"
+          >
+            View Organization
+          </a>
+        </ng-container>
+      </footer>
+    </article>
+
+    <p class="empty" *ngIf="filteredRequests.length === 0">
       No organization requests found.
-
-    </div>
-
+    </p>
   </ng-container>
 
+  <div class="modal-overlay" *ngIf="review as selected">
+    <section
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="review-title"
+      (keydown.escape)="closeReview()"
+    >
+      <header class="modal-header">
+        <h2 id="review-title">
+          {{ selected.decision === 'APPROVED' ? 'Approve Request' : 'Reject Request' }}
+        </h2>
+
+        <button
+          type="button"
+          class="close-button"
+          aria-label="Close"
+          [disabled]="reviewSaving"
+          (click)="closeReview()"
+        >
+          ×
+        </button>
+      </header>
+
+      <p class="modal-description" *ngIf="selected.decision === 'APPROVED'">
+        Approval creates <strong>{{ selected.request.organization_name }}</strong>.
+        <strong>{{ selected.request.requested_by_username || 'The requester' }}</strong>
+        <ng-container *ngIf="selected.request.current_organization as currentName">
+          moves from <strong>{{ currentName }}</strong> and
+        </ng-container>
+        becomes an Admin of the new organization.
+      </p>
+
+      <div *ngIf="selected.decision === 'REJECTED'">
+        <p class="modal-description">
+          Reject the request for <strong>{{ selected.request.organization_name }}</strong>.
+        </p>
+
+        <label for="rejection-reason">Rejection reason</label>
+        <textarea
+          id="rejection-reason"
+          [(ngModel)]="rejectionReason"
+          [disabled]="reviewSaving"
+          placeholder="Enter the reason for rejection"
+          required
+        ></textarea>
+      </div>
+
+      <p class="state-message error" role="alert" *ngIf="reviewError">
+        {{ reviewError }}
+      </p>
+
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="cancel-button"
+          [disabled]="reviewSaving"
+          (click)="closeReview()"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          [class.confirm-approve]="selected.decision === 'APPROVED'"
+          [class.confirm-reject]="selected.decision === 'REJECTED'"
+          [disabled]="reviewSaving"
+          (click)="confirmReview()"
+        >
+          {{ reviewSaving
+            ? 'Saving…'
+            : (selected.decision === 'APPROVED' ? 'Confirm Approval' : 'Confirm Rejection') }}
+        </button>
+      </div>
+    </section>
+  </div>
 </div>
